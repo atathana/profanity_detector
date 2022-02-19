@@ -89,7 +89,7 @@ def get_movie_locations_df(movie_data):
     locations_df = pd.DataFrame(movie_data['locations'])
     locations_df['imdb_id'] = movie_data['imdbID']
     locations_df['title'] = movie_data['title']
-      
+    locations_df.rename(columns={0: "locations"}) 
     return locations_df
 
 """
