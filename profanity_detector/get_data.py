@@ -109,7 +109,7 @@ def movie_data(movie_name):
 
 if __name__ == '__main__':
 
-    movie_name = input("What Is Your Favourite Movie? :")
+    movie_name = input("What Is Your Favourite Movie? : ")
     movie_meta, quotes_df, reviews_df, locations_df = movie_data(movie_name)
     print('Movie Details: ', movie_meta)
     print('First 5 Quotes: ',quotes_df.head())
