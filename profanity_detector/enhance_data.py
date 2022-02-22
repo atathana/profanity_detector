@@ -9,6 +9,7 @@ def split_location(location):
 #does note recognize the location, it will take only the last 3 elements
 #of the location - usually city, province and country
 def get_coordinates(location):
+    geolocator = Nominatim(user_agent="profanity_detector")
     film_location = geolocator.geocode(location)
     if film_location is None:
         new_location = location.split(",")[-3:]
@@ -18,9 +19,10 @@ def get_coordinates(location):
 
 #apply the geolocation coordinates to the location dataframe
 def get_geolocation_data(movie_name):
-    geolocator = Nominatim(user_agent="profanity_detector")
+    #geolocator = Nominatim(user_agent="profanity_detector")
     movie_data = get_all_movie_data(movie_name)
     movie_location = get_movie_locations_df(movie_data)
     movie_location["locations"] = movie_location["locations"].apply(split_location)
-    movie_location["latitude"], movie_location["longitude"] = zip(*map(get_coordinates, movie_location[0]))
+    movie_location["latitude"], movie_location["longitude"] = zip(*map(get_coordinates, movie_location["locations"]))
     return movie_location
+

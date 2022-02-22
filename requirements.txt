@@ -33,4 +33,5 @@ beautifulsoup4
 streamlit
 dotenv
 imdb
+geopy.geocoders
 
