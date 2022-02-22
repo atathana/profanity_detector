@@ -32,6 +32,7 @@ requests
 beautifulsoup4
 streamlit
 dotenv
-imdb
 wordcloud
 geopy.geocoders
+cinemagoer==2022.2.11
+IMDbPY==2021.4.18
