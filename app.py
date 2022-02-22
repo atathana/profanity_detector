@@ -1,7 +1,7 @@
 import streamlit as st
 from profanity_detector.giphy import get_giphy
 
-movie_name ='matrix'
+movie_name ='titanic'
 
 movies = get_giphy(movie_name)
 print(movies)
