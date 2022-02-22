@@ -34,3 +34,4 @@ streamlit
 dotenv
 imdb
 wordcloud
+geopy.geocoders
