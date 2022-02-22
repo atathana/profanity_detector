@@ -28,5 +28,9 @@ joblib
 memoized-property
 termcolor
 
-
+requests
+beautifulsoup4
+streamlit
+dotenv
 imdb
+
