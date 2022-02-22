@@ -20,10 +20,8 @@ def get_all_movie_data(movie_name):
 """
 create meta_data dict
 """
-def get_meta_data(movie_name):
-    # instantiate movie request
-    movie_data = get_all_movie_data(movie_name)
-
+def get_meta_data(movie_data):
+    
     # preprocess directors in case of list
     directors = []
     directors_obj = movie_data['director']
@@ -58,9 +56,7 @@ def get_meta_data(movie_name):
 """
 create quote df
 """
-def get_movie_quotes_df(movie_name):
-    #get data
-    movie_data = get_all_movie_data(movie_name)
+def get_movie_quotes_df(movie_data):
     #create quotes dict
     quotes_dict = {"imdb_id": movie_data['imdbID'],
                    "title": movie_data['title'],
@@ -76,10 +72,7 @@ def get_movie_quotes_df(movie_name):
 """
 create reviews df
 """
-def get_movie_reviews_df(movie_name):
-    #get data
-    movie_data = get_all_movie_data(movie_name)
-    
+def get_movie_reviews_df(movie_data):
     #create quotes df
     reviews_df = pd.DataFrame(movie_data['reviews'])
     reviews_df['imdb_id'] = movie_data['imdbID']
@@ -91,13 +84,37 @@ def get_movie_reviews_df(movie_name):
 """
 create filming locations df
 """
-def get_movie_locations_df(movie_name):
-    #get data
-    movie_data = get_all_movie_data(movie_name)
-    
+def get_movie_locations_df(movie_data):
     #create quotes df
     locations_df = pd.DataFrame(movie_data['locations'])
     locations_df['imdb_id'] = movie_data['imdbID']
     locations_df['title'] = movie_data['title']
-      
+    locations_df.rename(columns={0: "locations"}) 
     return locations_df
+
+"""
+main function
+"""
+def movie_data(movie_name):
+
+    movie_data = get_all_movie_data(movie_name)
+    movie_meta = get_meta_data(movie_data)
+    quotes_df = get_movie_quotes_df(movie_data)
+    reviews_df = get_movie_reviews_df(movie_data) 
+    locations_df = get_movie_locations_df(movie_data)
+
+    return movie_meta, quotes_df, reviews_df, locations_df
+
+
+
+if __name__ == '__main__':
+
+    movie_name = input("What Is Your Favourite Movie? : ")
+    movie_meta, quotes_df, reviews_df, locations_df = movie_data(movie_name)
+    print('Movie Details: \n', movie_meta)
+    print('\n')
+    print('First 5 Quotes: \n',quotes_df.head())
+    print('\n')
+    print('First 5 Reviews: \n', reviews_df.head())
+    print('\n')
+    print('First 5 Locations: \n',locations_df.head())
