@@ -1,4 +1,4 @@
-from get_data import get_movie_locations_df
+from get_data import get_all_movie_data, get_movie_locations_df
 from geopy.geocoders import Nominatim
 
 #remove the extra information (e.g. which scene)
@@ -19,7 +19,8 @@ def get_coordinates(location):
 #apply the geolocation coordinates to the location dataframe
 def get_geolocation_data(movie_name):
     geolocator = Nominatim(user_agent="profanity_detector")
-    movie_location = get_movie_locations_df(movie_name)
-    movie_location[0] = movie_location[0].apply(split_location)
+    movie_data = get_all_movie_data(movie_name)
+    movie_location = get_movie_locations_df(movie_data)
+    movie_location["locations"] = movie_location["locations"].apply(split_location)
     movie_location["latitude"], movie_location["longitude"] = zip(*map(get_coordinates, movie_location[0]))
     return movie_location
