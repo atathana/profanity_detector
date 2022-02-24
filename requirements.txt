@@ -34,4 +34,5 @@ streamlit
 dotenv
 imdb
 geopy.geocoders
+fastapi
 
