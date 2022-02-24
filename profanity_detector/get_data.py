@@ -8,7 +8,11 @@ get all movie data (meta + text + locations) in a single object
 def get_all_movie_data(movie_name):
     ia = Cinemagoer()
     movie_search = ia.search_movie(movie_name)
-    movie_id = movie_search[0].movieID
+    for i in range(len(movie_search)):
+        if movie_search[i]['kind'] == 'movie':
+            movie_id = movie_search[i].movieID
+            break
+    
     movie_data = ia.get_movie(movie_id)
     ia.update(movie_data,'quotes')
     ia.update(movie_data,'reviews')
@@ -27,14 +31,14 @@ def get_meta_data(movie_data):
     directors_obj = movie_data['director']
     for director in directors_obj:
         directors.append(director['name'])
-
+    
     # preprocess cast list only keep top 5 listed
     cast = []
     cast_obj = movie_data['cast']
     for actor in cast_obj:
         cast.append(actor['name'])
 
-    cast = cast[:5]
+    #cast = cast[:5]
 
     # collect all data points to dict
     movie_meta = { "imdb_id": movie_data['imdbID'],
