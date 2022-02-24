@@ -42,13 +42,17 @@ def get_meta_data(movie_data):
 
     movie_keys = movie_data.keys()
     meta_keys = ['imdbID','title','rating','genres','year','box office','top 250 rank','cover url','akas','countries']
-    error_message = 'Not There, Sorry...'
+    error_message = 'Didn\'t make it here yet...'
     for key in meta_keys:
         if not key in movie_keys:
             movie_data[key] = error_message
 
-    if not 'Cumulative Worldwide Gross' in movie_data['box office']:
-        movie_data['box office']['Cumulative Worldwide Gross'] = "Cheap bastards didn't want to tell us..."
+    missing_revenue = 'Cheap bastards didn\'t want to tell us...'
+    if type(movie_data['box office']) == str:
+        movie_data['box office'] = {"Cumulative Worldwide Gross":missing_revenue}
+    else:
+        if not 'Cumulative Worldwide Gross' in movie_data['box office']:
+            movie_data['box office']['Cumulative Worldwide Gross'] = missing_revenue
 
 
     # collect all data points to dict
