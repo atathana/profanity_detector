@@ -7,7 +7,7 @@ wheel>=0.29
 # data science
 numpy
 pandas
-scikit-learn
+scikit-learn==0.22.2.post1
 
 # tests/linter
 black
@@ -31,7 +31,10 @@ termcolor
 requests
 beautifulsoup4
 streamlit
-dotenv
-imdb
-geopy.geocoders
+python-dotenv
+git+https://github.com/cinemagoer/cinemagoer
+geopy
+hatesonar==0.0.5
+wordcloud
+vaderSentiment
 
