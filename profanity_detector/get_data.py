@@ -47,6 +47,8 @@ def get_meta_data(movie_data):
         if not key in movie_keys:
             movie_data[key] = error_message
 
+    if not 'Cumulative Worldwide Gross' in movie_data['box office']:
+        movie_data['box office']['Cumulative Worldwide Gross'] = "Cheap bastards didn't want to tell us..."
 
 
     # collect all data points to dict
@@ -120,9 +122,7 @@ def movie_data(movie_name):
     return movie_meta, quotes_df, reviews_df, locations_df
 
 
-
-if __name__ == '__main__':
-
+def run_and_display():
     movie_name = input("What Is Your Favourite Movie? : ")
     movie_meta, quotes_df, reviews_df, locations_df = movie_data(movie_name)
     print('Movie Details: \n', movie_meta)
@@ -133,3 +133,21 @@ if __name__ == '__main__':
     print('\n')
     print('First 5 Locations: \n',locations_df.head())
     plot_word_cloud(create_word_cloud(quotes_df))
+
+
+
+if __name__ == '__main__':
+
+    run_and_display()
+    """
+    movie_name = input("What Is Your Favourite Movie? : ")
+    movie_meta, quotes_df, reviews_df, locations_df = movie_data(movie_name)
+    print('Movie Details: \n', movie_meta)
+    print('\n')
+    print('First 5 Quotes: \n',quotes_df.head())
+    print('\n')
+    print('First 5 Reviews: \n', reviews_df.head())
+    print('\n')
+    print('First 5 Locations: \n',locations_df.head())
+    plot_word_cloud(create_word_cloud(quotes_df))
+    """
