@@ -1,6 +1,6 @@
 import pandas as pd
 from imdb import Cinemagoer
-
+from profanity_detector.movie_features import create_word_cloud, plot_word_cloud
 
 """
 get all movie data (meta + text + locations) in a single object
@@ -65,7 +65,8 @@ def get_movie_quotes_df(movie_data):
     quotes_df = pd.DataFrame(quotes_dict)
     #turn quotes from lists to strings
     quotes_df['quotes'] = quotes_df.apply(lambda x : ", ".join(x['quotes']), axis=1)
-    
+    quotes_df = quotes_df.rename(columns={"quotes": "content"})
+
     return quotes_df
 
 
@@ -118,3 +119,4 @@ if __name__ == '__main__':
     print('First 5 Reviews: \n', reviews_df.head())
     print('\n')
     print('First 5 Locations: \n',locations_df.head())
+    plot_word_cloud(create_word_cloud(quotes_df))

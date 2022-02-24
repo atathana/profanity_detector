@@ -31,10 +31,10 @@ termcolor
 requests
 beautifulsoup4
 streamlit
+geopy.geocoders
 python-dotenv
 git+https://github.com/cinemagoer/cinemagoer
 geopy
 hatesonar==0.0.5
 wordcloud
 vaderSentiment
-
