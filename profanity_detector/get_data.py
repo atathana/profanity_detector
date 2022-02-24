@@ -40,6 +40,15 @@ def get_meta_data(movie_data):
 
     #cast = cast[:5]
 
+    movie_keys = movie_data.keys()
+    meta_keys = ['imdbID','title','rating','genres','year','box office','top 250 rank','cover url','akas','countries']
+    error_message = 'Not There, Sorry...'
+    for key in meta_keys:
+        if not key in movie_keys:
+            movie_data[key] = error_message
+
+
+
     # collect all data points to dict
     movie_meta = { "imdb_id": movie_data['imdbID'],
                    "title": movie_data['title'],
