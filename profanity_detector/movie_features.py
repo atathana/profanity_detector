@@ -9,7 +9,7 @@ takes a df in which the 2nd column is the text(quotes_df or reviews_df) and retu
 """
 def create_word_cloud(df):
 	#createing text object from text column in df 
-	text_df = df.iloc[:, 1:2]
+	text_df = df['content']
 	text_series = text_df.squeeze()
 	text = " ".join(text_series)
 
