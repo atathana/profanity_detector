@@ -65,7 +65,8 @@ def get_movie_quotes_df(movie_data):
     quotes_df = pd.DataFrame(quotes_dict)
     #turn quotes from lists to strings
     quotes_df['quotes'] = quotes_df.apply(lambda x : ", ".join(x['quotes']), axis=1)
-    
+    quotes_df = quotes_df.rename(columns={"quotes": "content"})
+
     return quotes_df
 
 
