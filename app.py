@@ -3,10 +3,12 @@ from profanity_detector.giphy import get_giphy
 from profanity_detector.movie_features import create_word_cloud, plot_word_cloud
 from profanity_detector.get_data import movie_data
 from profanity_detector.movie_features import create_word_cloud, plot_word_cloud
-
+#from profanity_detector.feature_data_enrichment import get_geolocation_data
 
 #movie_name ='the matrix'
 
+st.title('I m BD')
+st.text('International Movie Bible Dashboard')
 #get movie name
 #movie_name = input("What Is Your Favourite Movie? : ")
 
