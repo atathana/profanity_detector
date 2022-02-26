@@ -1,6 +1,6 @@
 import pandas as pd
 from imdb import Cinemagoer
-from profanity_detector. movie_features import create_word_cloud, plot_word_cloud
+from profanity_detector.movie_features import create_word_cloud, plot_word_cloud
 
 """
 get all movie data (meta + text + locations) in a single object
