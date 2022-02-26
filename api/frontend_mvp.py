@@ -14,11 +14,11 @@ app.add_middleware(
 
 @app.get("/")
 def index():
-    return {"greeting": "Hello world"}
+    return {"greetings": "Hello world"}
 
 @app.get("/display_movie_data")
 def display_movie_data(movie_name):
     meta, quotes, reviews, locations = movie_data(movie_name)
     cover = meta["cover_url"]
-    return {"movie_details": meta,
+    return {"movie_details": meta
             }

@@ -1,6 +1,7 @@
 # packaging
 pip>=9
 setuptools>=26
+twine
 wheel>=0.29
 
 # data science
@@ -31,11 +32,9 @@ requests
 beautifulsoup4
 streamlit
 python-dotenv
-cinemagoer
+git+https://github.com/cinemagoer/cinemagoer
 geopy
 hatesonar==0.0.5
 wordcloud
 vaderSentiment
-fastapi
-uvicorn
-
+warnings

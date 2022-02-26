@@ -1,4 +1,4 @@
-FROM python:3.6.15-alpine
+FROM python:3.6.15-buster
 COPY api /api
 COPY requirements.txt /requirements.txt
 COPY profanity_detector /profanity_detector
