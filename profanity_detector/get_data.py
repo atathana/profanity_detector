@@ -1,6 +1,6 @@
 import pandas as pd
 from imdb import Cinemagoer
-from profanity_detector.movie_features import create_word_cloud, plot_word_cloud
+from profanity_detector. movie_features import create_word_cloud, plot_word_cloud
 
 """
 get all movie data (meta + text + locations) in a single object
@@ -12,26 +12,26 @@ def get_all_movie_data(movie_name):
         if movie_search[i]['kind'] == 'movie':
             movie_id = movie_search[i].movieID
             break
-    
+
     movie_data = ia.get_movie(movie_id)
     ia.update(movie_data,'quotes')
     ia.update(movie_data,'reviews')
     ia.update(movie_data,'locations')
-    
-    
+
+
     return movie_data
 
 """
 create meta_data dict
 """
 def get_meta_data(movie_data):
-    
+
     # preprocess directors in case of list
     directors = []
     directors_obj = movie_data['director']
     for director in directors_obj:
         directors.append(director['name'])
-    
+
     # preprocess cast list only keep top 5 listed
     cast = []
     cast_obj = movie_data['cast']
@@ -65,7 +65,7 @@ def get_meta_data(movie_data):
                    "year" : movie_data['year'],
                    "box_office" : movie_data['box office']['Cumulative Worldwide Gross'],
                    "top_250_rank" : movie_data['top 250 rank'],
-                   "cast" : cast, 
+                   "cast" : cast,
                    "cover_url" : movie_data['cover url'],
                    "akas" : movie_data['akas'],
                    "countries" : movie_data['countries']
@@ -97,7 +97,7 @@ def get_movie_reviews_df(movie_data):
     reviews_df = pd.DataFrame(movie_data['reviews'])
     reviews_df['imdb_id'] = movie_data['imdbID']
     reviews_df['title'] = movie_data['title']
-      
+
     return reviews_df
 
 
@@ -109,7 +109,7 @@ def get_movie_locations_df(movie_data):
     locations_df = pd.DataFrame(movie_data['locations'])
     locations_df['imdb_id'] = movie_data['imdbID']
     locations_df['title'] = movie_data['title']
-    locations_df = locations_df.rename(columns={0: "locations"}) 
+    locations_df = locations_df.rename(columns={0: "locations"})
     return locations_df
 
 """
@@ -120,7 +120,7 @@ def movie_data(movie_name):
     movie_data = get_all_movie_data(movie_name)
     movie_meta = get_meta_data(movie_data)
     quotes_df = get_movie_quotes_df(movie_data)
-    reviews_df = get_movie_reviews_df(movie_data) 
+    reviews_df = get_movie_reviews_df(movie_data)
     locations_df = get_movie_locations_df(movie_data)
 
     return movie_meta, quotes_df, reviews_df, locations_df
