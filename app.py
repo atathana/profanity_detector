@@ -6,6 +6,13 @@ from profanity_detector.get_data import movie_data
 from profanity_detector.movie_features import create_word_cloud, plot_word_cloud
 from profanity_detector.feature_data_enrichment import get_geolocation_data
 
+
+st.set_page_config(page_title="I m BD",
+                   page_icon="film_frames",
+                   layout="wide",
+                   initial_sidebar_state="expanded")
+
+
 st.title('I m BD')
 st.text('International Movie Bible Dashboard')
 #get movie name
@@ -70,7 +77,7 @@ if movie_name:
         #get giphs
         movies = get_giphy(movie_name)
         print(movies)
-
+    
         for movie in movies:
             st.markdown(
                 "<iframe src= {} width='240' height='180' frameBorder='0' class='giphy-embed' allowFullScreen></iframe>".format(movie),
