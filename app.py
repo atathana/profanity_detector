@@ -1,16 +1,14 @@
 import streamlit as st
+import pandas as pd
 from profanity_detector.giphy import get_giphy
 from profanity_detector.movie_features import create_word_cloud, plot_word_cloud
 from profanity_detector.get_data import movie_data
 from profanity_detector.movie_features import create_word_cloud, plot_word_cloud
-#from profanity_detector.feature_data_enrichment import get_geolocation_data
-
-#movie_name ='the matrix'
+from profanity_detector.feature_data_enrichment import get_geolocation_data
 
 st.title('I m BD')
 st.text('International Movie Bible Dashboard')
 #get movie name
-#movie_name = input("What Is Your Favourite Movie? : ")
 
 movie_name = st.text_input("What Is Your Favourite Movie? : ", '')
 
@@ -77,3 +75,9 @@ if movie_name:
             st.markdown(
                 "<iframe src= {} width='240' height='180' frameBorder='0' class='giphy-embed' allowFullScreen></iframe>".format(movie),
                 unsafe_allow_html=True)
+
+
+
+    st.header ("Movie Locations")
+    movie_loations = get_geolocation_data(locations_df)
+    st.map(movie_loations)
