@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from profanity_detector.get_data import get_all_movie_data,get_meta_data
+from profanity_detector.get_data import movie_data
 
 app = FastAPI()
 
@@ -18,6 +18,7 @@ def index():
 
 @app.get("/display_movie_data")
 def display_movie_data(movie_name):
-    movie_data = get_all_movie_data(movie_name)
-    movie_meta = get_meta_data(movie_data)
-    return {"movie_details": movie_meta}
+    meta, quotes, reviews, locations = movie_data(movie_name)
+    cover = meta["cover_url"]
+    return {"movie_details": meta,
+            }
