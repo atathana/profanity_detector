@@ -42,7 +42,7 @@ count_lines:
 	@echo ''
 
 run_api:
-	uvicorn api.fast:app --reload  # load web server with code autoreload
+	uvicorn frontend_mvp:app --reload  # load web server with code autoreload
 # ----------------------------------
 #      UPLOAD PACKAGE TO PYPI
 # ----------------------------------
