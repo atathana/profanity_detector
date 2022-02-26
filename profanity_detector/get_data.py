@@ -8,7 +8,11 @@ get all movie data (meta + text + locations) in a single object
 def get_all_movie_data(movie_name):
     ia = Cinemagoer()
     movie_search = ia.search_movie(movie_name)
-    movie_id = movie_search[0].movieID
+    for i in range(len(movie_search)):
+        if movie_search[i]['kind'] == 'movie':
+            movie_id = movie_search[i].movieID
+            break
+    
     movie_data = ia.get_movie(movie_id)
     ia.update(movie_data,'quotes')
     ia.update(movie_data,'reviews')
@@ -27,14 +31,29 @@ def get_meta_data(movie_data):
     directors_obj = movie_data['director']
     for director in directors_obj:
         directors.append(director['name'])
-
+    
     # preprocess cast list only keep top 5 listed
     cast = []
     cast_obj = movie_data['cast']
     for actor in cast_obj:
         cast.append(actor['name'])
 
-    cast = cast[:5]
+    #cast = cast[:5]
+
+    movie_keys = movie_data.keys()
+    meta_keys = ['imdbID','title','rating','genres','year','box office','top 250 rank','cover url','akas','countries']
+    error_message = 'Didn\'t make it here yet...'
+    for key in meta_keys:
+        if not key in movie_keys:
+            movie_data[key] = error_message
+
+    missing_revenue = 'Cheap bastards didn\'t want to tell us...'
+    if type(movie_data['box office']) == str:
+        movie_data['box office'] = {"Cumulative Worldwide Gross":missing_revenue}
+    else:
+        if not 'Cumulative Worldwide Gross' in movie_data['box office']:
+            movie_data['box office']['Cumulative Worldwide Gross'] = missing_revenue
+
 
     # collect all data points to dict
     movie_meta = { "imdb_id": movie_data['imdbID'],
@@ -107,9 +126,7 @@ def movie_data(movie_name):
     return movie_meta, quotes_df, reviews_df, locations_df
 
 
-
-if __name__ == '__main__':
-
+def run_and_display():
     movie_name = input("What Is Your Favourite Movie? : ")
     movie_meta, quotes_df, reviews_df, locations_df = movie_data(movie_name)
     print('Movie Details: \n', movie_meta)
@@ -120,3 +137,21 @@ if __name__ == '__main__':
     print('\n')
     print('First 5 Locations: \n',locations_df.head())
     plot_word_cloud(create_word_cloud(quotes_df))
+
+
+
+if __name__ == '__main__':
+
+    run_and_display()
+    """
+    movie_name = input("What Is Your Favourite Movie? : ")
+    movie_meta, quotes_df, reviews_df, locations_df = movie_data(movie_name)
+    print('Movie Details: \n', movie_meta)
+    print('\n')
+    print('First 5 Quotes: \n',quotes_df.head())
+    print('\n')
+    print('First 5 Reviews: \n', reviews_df.head())
+    print('\n')
+    print('First 5 Locations: \n',locations_df.head())
+    plot_word_cloud(create_word_cloud(quotes_df))
+    """

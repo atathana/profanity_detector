@@ -18,6 +18,8 @@ def create_word_cloud(df):
 	remove_words = df['title'][0].split()
 	remove_words.append('movie')
 	remove_words.append('film')
+	remove_words.append('qv')
+	remove_words.append('_')
 	remove_words
 
 	for word in remove_words:
