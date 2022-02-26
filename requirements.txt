@@ -37,5 +37,4 @@ geopy
 hatesonar==0.0.5
 wordcloud
 vaderSentiment
-warnings
 
