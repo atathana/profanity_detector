@@ -18,10 +18,10 @@ def get_coordinates(location):
     return results
 
 #apply the geolocation coordinates to the location dataframe
-def get_geolocation_data(movie_name):
+def get_geolocation_data(movie_location):
     #geolocator = Nominatim(user_agent="profanity_detector")
-    movie_data = get_all_movie_data(movie_name)
-    movie_location = get_movie_locations_df(movie_data)
+    #movie_data = get_all_movie_data(movie_name)
+    #movie_location = get_movie_locations_df(movie_data)
     movie_location["locations"] = movie_location["locations"].apply(split_location)
     movie_location["latitude"], movie_location["longitude"] = zip(*map(get_coordinates, movie_location["locations"]))
     return movie_location
