@@ -40,26 +40,29 @@ if movie_name:
             st.text(director)
 
         st.subheader('Genres')
-        for genre in movie_meta['genres']:
-            st.text(genre)
+        with st.expander("See All Related Genres"):
+            for genre in movie_meta['genres']:
+                st.text(genre)
         
         st.subheader('Year')
         st.text(movie_meta['year'])
         
         st.subheader('Box Office')
-        st.text(movie_meta['title'])
+        st.text(movie_meta['box_office'])
         
         st.subheader('Top 250 Rank')
         st.text(movie_meta['top_250_rank'])
 
         st.subheader('Countries')
-        for country in movie_meta['countries']:
-            st.text(country)
+        with st.expander("See Countries"):
+            for country in movie_meta['countries']:
+                st.text(country)
         
         st.subheader('Cast')
-        for member in movie_meta['cast']:
-            st.text(member)
-        #st.json(movie_meta)
+        with st.expander("See Cast List"):
+            for member in movie_meta['cast']:
+                st.text(member)
+        
 
     
     with col3:
