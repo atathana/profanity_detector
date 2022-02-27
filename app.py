@@ -1,5 +1,6 @@
 import streamlit as st
 import pandas as pd
+import matplotlib.pyplot as plt
 from profanity_detector.giphy import get_giphy
 from profanity_detector.movie_features import create_word_cloud, plot_word_cloud
 from profanity_detector.get_data import movie_data
@@ -26,15 +27,8 @@ if movie_name:
     #get data
     movie_meta, quotes_df, reviews_df, locations_df = movie_data(movie_name)
 
-    with col1:
-        st.header ("Cover")
-        #show_cover
-        st.image(movie_meta['cover_url'], 
-                 use_column_width='auto',
-                 caption=movie_meta['title'])
-
     #show_meta_data
-    with col2:
+    with col1:
         st.header ("Movie Info")
         st.subheader('Title')
         st.text(movie_meta['title'])
@@ -70,11 +64,20 @@ if movie_name:
             for member in movie_meta['cast']:
                 st.text(member)
         
+    with col2:
+        st.header ("Cover")
+        #show_cover
+        st.image(movie_meta['cover_url'], 
+                 use_column_width='auto',
+                 caption=movie_meta['title'])
 
+        st.header ("QuoteCloud")
+        plot_word_cloud(create_word_cloud(quotes_df))
+        st.pyplot()
     
     with col3:
         st.header ("Gifs")
-        #get giphs
+        get giphs
         movies = get_giphy(movie_name)
         print(movies)
     
