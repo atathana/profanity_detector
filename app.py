@@ -77,7 +77,7 @@ if movie_name:
     
     with col3:
         st.header ("Gifs")
-        get giphs
+        #get giphs
         movies = get_giphy(movie_name)
         print(movies)
     
