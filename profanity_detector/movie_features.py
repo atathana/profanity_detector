@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 takes a df in which the 2nd column is the text(quotes_df or reviews_df) and returns a wordcloud object
 """
 
-def create_word_cloud(df, character_list=[]):
+def create_word_cloud(df, exclude_words=[]):
 	#createing text object from text column in df 
 	text_df = df['content']
 	text_series = text_df.squeeze()
@@ -23,8 +23,8 @@ def create_word_cloud(df, character_list=[]):
 	remove_words.append('_')
 	remove_words.append('narator')
 
-	for character in character_list:
-		remove_words.append(character)
+	for w in exclude_words:
+		remove_words.append(w)
 
 	for word in remove_words:
 		text = text.replace(word,"")
