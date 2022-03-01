@@ -72,7 +72,7 @@ if movie_name:
                  caption=movie_meta['title'])
 
         st.header ("QuoteCloud")
-        plot_word_cloud(create_word_cloud(quotes_df))
+        plot_word_cloud(create_word_cloud(quotes_df,movie_meta['characters']))
         st.pyplot()
     
     with col3:
