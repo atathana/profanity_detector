@@ -21,6 +21,7 @@ def get_all_movie_data(movie_name):
 
     return movie_data
 
+
 """
 create meta_data dict
 """
@@ -40,6 +41,20 @@ def get_meta_data(movie_data):
 
     #cast = cast[:5]
 
+
+    # create character list
+    characters = []
+    for i in range(len(movie_data['cast'])):
+        if isinstance(movie_data['cast'][i].currentRole, list):
+            pass
+        else:
+            if 'name' in movie_data['cast'][i].currentRole.keys():
+                characters.append(movie_data['cast'][i].currentRole['name'])
+    
+    if not characters[0]:
+        characters[0] = 'no data'
+
+    # missing data handeling
     movie_keys = movie_data.keys()
     meta_keys = ['imdbID','title','rating','genres','year','box office','top 250 rank','cover url','akas','countries']
     error_message = 'Didn\'t make it here yet...'
@@ -55,6 +70,7 @@ def get_meta_data(movie_data):
             movie_data['box office']['Cumulative Worldwide Gross'] = missing_revenue
 
 
+
     # collect all data points to dict
     movie_meta = { "imdb_id": movie_data['imdbID'],
                    "title": movie_data['title'],
@@ -66,11 +82,13 @@ def get_meta_data(movie_data):
                    "box_office" : movie_data['box office']['Cumulative Worldwide Gross'],
                    "top_250_rank" : movie_data['top 250 rank'],
                    "cast" : cast,
+                   "characters": characters,
                    "cover_url" : movie_data['cover url'],
                    "akas" : movie_data['akas'],
                    "countries" : movie_data['countries']
                  }
     return movie_meta
+
 
 """
 create quote df
