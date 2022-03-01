@@ -1,4 +1,4 @@
-from get_data import get_all_movie_data, get_movie_locations_df
+from profanity_detector.get_data import movie_data
 from geopy.geocoders import Nominatim
 
 #remove the extra information (e.g. which scene)

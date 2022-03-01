@@ -25,7 +25,7 @@ def create_word_cloud(df):
 	for word in remove_words:
 	    text = text.replace(word,"")
 
-	word_cloud = WordCloud(collocations = False, background_color = 'white').generate(text)
+	word_cloud = WordCloud(collocations = False, background_color = 'black').generate(text)
 
 
 	return word_cloud

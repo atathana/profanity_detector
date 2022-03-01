@@ -1,16 +1,22 @@
 import streamlit as st
+import pandas as pd
+import matplotlib.pyplot as plt
 from profanity_detector.giphy import get_giphy
 from profanity_detector.movie_features import create_word_cloud, plot_word_cloud
 from profanity_detector.get_data import movie_data
 from profanity_detector.movie_features import create_word_cloud, plot_word_cloud
-#from profanity_detector.feature_data_enrichment import get_geolocation_data
+from profanity_detector.feature_data_enrichment import get_geolocation_data
 
-#movie_name ='the matrix'
+
+st.set_page_config(page_title="I m BD",
+                   page_icon="film_frames",
+                   layout="wide",
+                   initial_sidebar_state="expanded")
+
 
 st.title('I m BD')
 st.text('International Movie Bible Dashboard')
 #get movie name
-#movie_name = input("What Is Your Favourite Movie? : ")
 
 movie_name = st.text_input("What Is Your Favourite Movie? : ", '')
 
@@ -21,15 +27,8 @@ if movie_name:
     #get data
     movie_meta, quotes_df, reviews_df, locations_df = movie_data(movie_name)
 
-    with col1:
-        st.header ("Cover")
-        #show_cover
-        st.image(movie_meta['cover_url'], 
-                 use_column_width='auto',
-                 caption=movie_meta['title'])
-
     #show_meta_data
-    with col2:
+    with col1:
         st.header ("Movie Info")
         st.subheader('Title')
         st.text(movie_meta['title'])
@@ -65,15 +64,30 @@ if movie_name:
             for member in movie_meta['cast']:
                 st.text(member)
         
+    with col2:
+        st.header ("Cover")
+        #show_cover
+        st.image(movie_meta['cover_url'], 
+                 use_column_width='auto',
+                 caption=movie_meta['title'])
 
+        st.header ("QuoteCloud")
+        plot_word_cloud(create_word_cloud(quotes_df))
+        st.pyplot()
     
     with col3:
         st.header ("Gifs")
         #get giphs
         movies = get_giphy(movie_name)
         print(movies)
-
+    
         for movie in movies:
             st.markdown(
                 "<iframe src= {} width='240' height='180' frameBorder='0' class='giphy-embed' allowFullScreen></iframe>".format(movie),
                 unsafe_allow_html=True)
+
+
+
+    st.header ("Movie Locations")
+    movie_loations = get_geolocation_data(locations_df)
+    st.map(movie_loations)
