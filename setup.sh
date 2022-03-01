@@ -8,6 +8,8 @@ email = \"your-email@domain.com\"\n\
 echo "\
 [theme]\n\
 base=\"dark\"\n\
+[deprecation]\n\
+showPyplotGlobalUse = false\n\
 [server]\n\
 headless = true\n\
 enableCORS=false\n\
