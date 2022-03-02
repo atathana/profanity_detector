@@ -3,9 +3,11 @@ from dotenv import load_dotenv
 import json
 from urllib import parse, request
 
-#load_dotenv()
-#API_KEY = os.getenv('giphy_KEY')
-API_KEY = os.environ["giphy_KEY"]
+load_dotenv()
+if 'giphy_KEY' in os.environ:
+    API_KEY = os.getenv('giphy_KEY')
+else:
+    API_KEY = os.environ["giphy_KEY"]
 
 def get_giphy(movie_name):
     giphy_list = []
