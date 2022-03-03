@@ -82,8 +82,8 @@ def get_coordinates(location):
 
 
 def enrich_locations(locations_df):
-    #limit to 35 locations - linit of nominatim
-    location_df = locations_df.iloc[:35,:]
+    #limit to 25 locations - linit of nominatim seems to be 35
+    locations_df = locations_df.iloc[:34,:]
 
     #split scene names  string from geolocation strings
     locations_df['movie_location'] = locations_df.apply(lambda x: get_movie_location(x['locations']), axis=1 )
