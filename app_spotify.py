@@ -9,7 +9,7 @@ import base64
 import os
 import streamlit.components.v1 as components
 from IPython.core.display import display, HTML
-
+from streamlit_player import st_player
 
 
 
@@ -24,29 +24,29 @@ from IPython.core.display import display, HTML
 
 # client_id = os.environ.get("CLIENTID")
 # client_secret=os.environ.get("CLIENTSEC")
-client_id ="a2a39f20a23a41fa94057a7e2cb13675"
-client_secret="4dc99bfd287e44b8bde2cab06d4b3e05"
+client_id ="5c89e3fbc1514489ba396629b99ead14"
+client_secret="ff02150e1f764930be352d8789f1067b"
 spotify = SpotifyAPI(client_id, client_secret)
 
 #Menu
 # Use the full page instead of a narrow central column
 st.set_page_config(layout="wide")
 
-# Space out the maps so the first one is 2x the size of the other three
-
 
 #title,icon
 components.html(
     """
  <img src="https://img.icons8.com/ultraviolet/80/000000/spotify--v2.png"/>
- 
     """,height=100
 )
 st.title("Spotify List")
 
 
+#movie name
 Name_of_Movie = st.text_input("Movie Name")
 
+
+#Start Data  or you can use class potify.spotify_get_organised_data func from spotify_func.py
 Data = spotify.search({"album": f"{Name_of_Movie}"}, search_type="track")
 #need contents 
 need = []
@@ -77,13 +77,15 @@ for id in Track_df['Id'].iteritems():
     Feat_df = Feat_df.append(Features_df)
 Full_Data = Track_df.merge(Feat_df, left_on="Id", right_on="id")
 
-#sort
+#END data sort
 Sort_DF = Full_Data.sort_values(by=['Popularity'], ascending=False).head(10)
+
+
+
 
 #chart df 
 chart_df = Sort_DF[['Artist', 'Album Name', 'Song Name', 'Release Date', 'Popularity',"energy","albumID"]]
 Name_of_Feat="energy"
-
 
 #chart df drop deplicate
 drop_deplicated_data=chart_df.drop_duplicates(subset=['Album Name'], keep="first").reset_index(drop=True)
@@ -98,57 +100,111 @@ c = alt.Chart(chart_df).mark_circle().encode(
 st.altair_chart(c, use_container_width=True)
 
 
+#player show
+col1, col2,col3,col4= st.columns(4)
 
-#player loop
-st.title("Music Gallery")
-st.title(len(drop_deplicated_data["albumID"]))
-i=0
-while i < len(drop_deplicated_data["albumID"]):
-# for i in range(0,len(drop_deplicated_data["albumID"]),2):
-    uri=drop_deplicated_data["albumID"][i]
-    uri1=drop_deplicated_data["albumID"][i+1]
-     
-    components.html(
-   f"""
-   <div style=”display: inline-block;”>
- <iframe src=https://open.spotify.com/embed/album/{uri} width="230" height="500" frameborder="50" allowtransparency="true" 
- allow="encrypted-media" ></iframe>
- 
-  <iframe src=https://open.spotify.com/embed/album/{uri1} width="230" height="500" frameborder="50" allowtransparency="true" 
- allow="encrypted-media" ></iframe>
- 
-    """,
-    height=300,
-)
-    i=i+2
+
+if len(drop_deplicated_data["albumID"]) == 1:
+    with col3:
+        uri=drop_deplicated_data["albumID"][0]
+        components.html(
+            f"""
+
+            <iframe src=https://open.spotify.com/embed/album/{uri} width="200" height="400" frameborder="50" allowtransparency="true" 
+            allow="encrypted-media" ></iframe>
+
+            
+                """,
+                height=400
+            ) 
+    with col2:
+        components.html(
+            f"""
+            
+           <img  src="https://img.icons8.com/external-xnimrodx-lineal-gradient-xnimrodx/64/000000/external-audio-online-learning-xnimrodx-lineal-gradient-xnimrodx.png"/>
+            
+                """,
+                height=300
+            ) 
+        
+        
+elif len(drop_deplicated_data["albumID"]) > 1:
+    with col2:
+        uri=drop_deplicated_data["albumID"][0]
+        components.html(
+            f"""
+
+            <iframe src=https://open.spotify.com/embed/album/{uri} width="200" height="500" frameborder="50" allowtransparency="true" 
+            allow="encrypted-media" ></iframe>
+
+            
+                """,
+                height=400
+            )    
+    with col3:
+        uri1=drop_deplicated_data["albumID"][1]
+        components.html(
+            f"""
+
+             <iframe src=https://open.spotify.com/embed/album/{uri1} width="230" height="500" frameborder="50" allowtransparency="true" 
+            allow="encrypted-media" ></iframe>
+            
+            
+                """,
+                height=400,
+            )
+    with col1:
+        components.html(
+            f"""
+            <div style="text-align: center;">
+            <img src="https://img.icons8.com/external-xnimrodx-lineal-gradient-xnimrodx/64/000000/external-audio-online-learning-xnimrodx-lineal-gradient-xnimrodx.png"/>
+            
+            </div>
+                """,
+                height=100
+            ) 
+        
+        components.html(
+            f"""
+            
+            <img src="https://img.icons8.com/external-tulpahn-flat-tulpahn/64/000000/external-audio-mobile-user-interface-tulpahn-flat-tulpahn.png"/>
+            
+                """,
+                height=100
+            ) 
+        
+        with col4:
+            components.html(
+            f"""
+            <div style="margin-left:30px;">
+            <img src="https://img.icons8.com/external-flaticons-lineal-color-flat-icons/64/000000/external-audio-edm-flaticons-lineal-color-flat-icons-2.png"/>
+            
+            </div>
+                """,
+                height=100
+            ) 
+        
+            components.html(
+            f"""
+            <div style="text-align: right;">
+            <img src="https://img.icons8.com/external-tulpahn-flat-tulpahn/64/000000/external-audio-mobile-user-interface-tulpahn-flat-tulpahn.png"/>
+            </div>
+                """,
+                height=100
+            ) 
+            
+elif len(drop_deplicated_data["albumID"]) == 0:
+    None
     
-    
- #loop
-#  col1, col2= st.columns(2)
-#  for i in len(drop_deplicated_data["albumID"]):
-#          uri=drop_deplicated_data["albumID"][i]
-#     uri1=drop_deplicated_data["albumID"][i+1]
-#  with col1:
-#     st.header("A cat")
-#     st.image("https://static.streamlit.io/examples/cat.jpg")
-
-# with col2:
-#     st.header("A dog")
-#     st.image("https://static.streamlit.io/examples/dog.jpg")
-   
-
-# uri=chart_df["albumID"].reset_index(drop=True)[0]
-# components.html(
-#    f"""
-#  <iframe src=https://open.spotify.com/embed/album/{uri} width="300" height="380" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
-#     """,
-#     height=200,
-# )
+else:
+    None
 
 
-#show table
+#show data table
 st.header(f"{Name_of_Movie} Track List")
 st.table(chart_df)
+
+
 
 
 

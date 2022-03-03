@@ -4,11 +4,12 @@ import requests
 import datetime
 from  urllib.parse import urlencode
 import base64
+import pandas as pd
 
 # client_id = os.environ.get("CLIENTID")
 # client_secret=os.environ.get("CLIENTSEC")
-client_id ="a2a39f20a23a41fa94057a7e2cb13675"
-client_secret="4dc99bfd287e44b8bde2cab06d4b3e05"
+client_id ="5c89e3fbc1514489ba396629b99ead14"
+client_secret="ff02150e1f764930be352d8789f1067b"
 #class+search method
 #another search method type https://developer.spotify.com/documentation/web-api/reference/#/operations/search
 
@@ -140,4 +141,48 @@ class SpotifyAPI(object):
         print(query_params)
         return self.base_search(query_params)
     
+    
+    def SpotifyDataFrame(self,moviename):
+        #Data
+        Data = spotify.search({"album": f"{Name_of_Movie}"}, search_type="track")
+        
+        #need contents 
+        need = []
+        for i, item in enumerate(Data['tracks']['items']):
+            track = item['album']
+            track_id = item['id']
+            song_name = item['name']
+            popularity = item['popularity']
+            need.append((i, track['artists'][0]['name'], track['name'], track_id, song_name, track['release_date'], popularity,item['album']["id"]))
 
+        #data frame top10
+        Track_df = pd.DataFrame(need, index=None, columns=('Item', 'Artist', 'Album Name', 'Id', 'Song Name', 'Release Date', 'Popularity',"albumID"))
+
+        access_token = self.access_token
+        headers = {
+            "Authorization": f"Bearer {access_token}"
+        }
+        endpoint = "https://api.spotify.com/v1/audio-features/"
+
+        #Full data
+        Feat_df = pd.DataFrame()
+        for id in Track_df['Id'].iteritems():
+            track_id = id[1]
+            lookup_url = f"{endpoint}{track_id}"
+            ra = requests.get(lookup_url, headers=headers)
+            audio_feat = ra.json()
+            Features_df = pd.DataFrame(audio_feat, index=[0])
+            Feat_df = Feat_df.append(Features_df)
+        Full_Data = Track_df.merge(Feat_df, left_on="Id", right_on="id")
+
+        #sort
+        Sort_DF = Full_Data.sort_values(by=['Popularity'], ascending=False).head(10)
+
+        #chart df 
+        chart_df = Sort_DF[['Artist', 'Album Name', 'Song Name', 'Release Date', 'Popularity',"energy","albumID"]]
+        Name_of_Feat="energy"
+
+        #chart df drop deplicate
+        drop_deplicated_data=chart_df.drop_duplicates(subset=['Album Name'], keep="first").reset_index(drop=True)
+        
+        return drop_deplicated_data
