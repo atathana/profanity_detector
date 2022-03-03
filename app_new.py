@@ -6,11 +6,6 @@ import numpy as np
 
 app = MultiApp()
 
-# Title of the main page
-
-st.title("I m BD - International Movie Bible Application ")
-
-
 # Add all your application here
 app.add_app("Home", home.app)
 app.add_app("Sentiment", sentiment.app)
