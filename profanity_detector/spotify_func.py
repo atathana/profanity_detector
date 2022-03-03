@@ -142,7 +142,7 @@ class SpotifyAPI(object):
         return self.base_search(query_params)
     
     
-    def SpotifyDataFrame(self,moviename):
+    def spotify_get_organised_data(self,moviename):
         #Data
         Data = spotify.search({"album": f"{Name_of_Movie}"}, search_type="track")
         
