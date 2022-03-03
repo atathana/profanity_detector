@@ -36,7 +36,6 @@ git+https://github.com/cinemagoer/cinemagoer
 hatesonar==0.0.5
 wordcloud
 vaderSentiment
-warnings
 
 #location_tagging
 
