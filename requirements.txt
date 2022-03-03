@@ -43,6 +43,3 @@ geopy
 geograpy
 nltk
 spacy
-
-#install not through pip
-geograpy-nltk
