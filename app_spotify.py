@@ -124,17 +124,17 @@ while i < len(drop_deplicated_data["albumID"]):
     
     
  #loop
-#  col1, col2= st.columns(2)
-#  for i in len(drop_deplicated_data["albumID"]):
-#          uri=drop_deplicated_data["albumID"][i]
-#     uri1=drop_deplicated_data["albumID"][i+1]
-#  with col1:
-#     st.header("A cat")
-#     st.image("https://static.streamlit.io/examples/cat.jpg")
+ col1, col2= st.columns(2)
+ for i in len(drop_deplicated_data["albumID"]):
+         uri=drop_deplicated_data["albumID"][i]
+    uri1=drop_deplicated_data["albumID"][i+1]
+ with col1:
+    st.header("A cat")
+    st.image("https://static.streamlit.io/examples/cat.jpg")
 
-# with col2:
-#     st.header("A dog")
-#     st.image("https://static.streamlit.io/examples/dog.jpg")
+with col2:
+    st.header("A dog")
+    st.image("https://static.streamlit.io/examples/dog.jpg")
    
 
 # uri=chart_df["albumID"].reset_index(drop=True)[0]
