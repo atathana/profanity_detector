@@ -5,11 +5,13 @@ import datetime
 from  urllib.parse import urlencode
 import base64
 
-client_id = os.environ.get("CLIENTID")
-client_secret=os.environ.get("CLIENTSEC")
-
+# client_id = os.environ.get("CLIENTID")
+# client_secret=os.environ.get("CLIENTSEC")
+client_id ="a2a39f20a23a41fa94057a7e2cb13675"
+client_secret="4dc99bfd287e44b8bde2cab06d4b3e05"
 #class+search method
 #another search method type https://developer.spotify.com/documentation/web-api/reference/#/operations/search
+
 
 class SpotifyAPI(object):
     access_token=None
