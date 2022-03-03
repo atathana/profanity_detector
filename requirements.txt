@@ -33,14 +33,16 @@ beautifulsoup4
 streamlit
 python-dotenv
 git+https://github.com/cinemagoer/cinemagoer
-geopy
 hatesonar==0.0.5
 wordcloud
 vaderSentiment
-<<<<<<< HEAD
-=======
-# warnings ERROR: Could not find a version that satisfies the requirement warnings (from versions: none)
->>>>>>> beb01c4 (fix error)
 
 #spotify
 altair
+
+#location_tagging
+geopy
+geograpy
+nltk
+spacy
+
