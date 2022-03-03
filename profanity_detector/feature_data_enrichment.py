@@ -81,6 +81,14 @@ def get_coordinates(location):
     return latitude, longitude 
 
 
+def get_country_from_coordinates(latitude, longitude)
+    loc = Nominatim(user_agent="profanity_detector")
+    reverse_location = loc.reverse([getLoc2.latitude, getLoc2.longitude])
+    country_name = reverse_location.raw['address']['country']
+    return country_name
+
+
+
 def enrich_locations(locations_df):
     #limit to 25 locations - linit of nominatim seems to be 35
     locations_df = locations_df.iloc[:34,:]
@@ -92,4 +100,7 @@ def enrich_locations(locations_df):
     #get coordinates
     locations_df[['latitude','longitude']] = locations_df.apply(lambda x: get_coordinates(x['set_location']) , axis=1, result_type='expand')
     
+    #get country name for each location
+    locations_df['country'] = locations_df.apply(lambda x: get_country_from_coordinates(x['latitude'], x['longitude']), axis=1)
+
     return locations_df
