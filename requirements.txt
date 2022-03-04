@@ -37,8 +37,11 @@ hatesonar==0.0.5
 wordcloud
 vaderSentiment
 
-#location_tagging
+#spotify
+altair
+streamlit_player
 
+#location_tagging
 geopy
 geograpy
 nltk
