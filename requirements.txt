@@ -39,10 +39,10 @@ vaderSentiment
 
 #spotify
 altair
+streamlit_player
 
 #location_tagging
 geopy
 geograpy
 nltk
 spacy
-
