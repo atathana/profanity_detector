@@ -26,7 +26,7 @@ if movie_name:
     vader_analysis_quotes = vader_percent_analysis(vader_sentiment_analysis(quotes_df))
     categ_quotes = hate_speech_classifier(quotes_df)
     data = [categ_quotes.Class.value_counts()[-1], categ_quotes.Class.value_counts()[1], categ_quotes.Class.value_counts()[0]]
-    
+
 
     with col1:
         st.header("Quotes")
@@ -39,7 +39,7 @@ if movie_name:
         st.markdown(offensive_quote)
         st.subheader('Sentiment Quote')
         labels = ['Hate Speech', 'Offensive', 'Neither']
-        explode = (0, 0.1,0.1) 
+        explode = (0, 0.1,0.1)
         fig1, ax1 = plt.subplots(nrows=1,ncols=1,figsize=(10, 6), subplot_kw=dict(aspect="equal"), dpi= 80)
         ax1.pie(data, explode=explode, labels=labels, autopct='%1.1f%%',
         shadow=True, startangle=90)
@@ -58,11 +58,9 @@ if movie_name:
         st.markdown(offensive_review)
         #labels2 = ['Hate Speech', 'Offensive', 'Neither']
         # st.header("Sentiment Reviews")
-        # explode = (0, 0.1,0.1) 
+        # explode = (0, 0.1,0.1)
         # fig2, ax2 = plt.subplots(nrows=1,ncols=1)
         # ax2.pie(data_reviews, explode=explode, labels=labels2, autopct='%1.1f%%',
         # shadow=True, startangle=90)
         # ax2.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
         # st.pyplot(fig2)
-
-

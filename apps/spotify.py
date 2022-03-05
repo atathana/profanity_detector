@@ -4,10 +4,7 @@ from tempfile import SpooledTemporaryFile
 from profanity_detector.spotify_func import SpotifyAPI
 import pandas as pd
 import altair as alt
-import requests
-import base64
-import os
-import streamlit.components.v1 as components
+
 import json
 from os import path
 #from apps.home import input

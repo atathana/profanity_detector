@@ -1,10 +1,7 @@
 import streamlit as st
 from multiapp import MultiApp
 from apps import home, sentiment, spotify  # import your app modules here
-from PIL import Image
-import numpy as np
-import json
-from os import path
+
 
 app = MultiApp()
 
