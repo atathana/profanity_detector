@@ -33,7 +33,6 @@ else:
 # Use the full page instead of a narrow central column
 st.set_page_config(layout="wide")
 
-
 #title,icon
 components.html(
     """
@@ -48,6 +47,8 @@ Name_of_Movie = st.text_input("Movie Name")
 
 
 #Start Data  or you can use class potify.spotify_get_organised_data func from spotify_func.py
+spotify=SpotifyAPI(client_id,client_secret)
+
 Data = spotify.search({"album": f"{Name_of_Movie}"}, search_type="track")
 #need contents 
 need = []
@@ -79,10 +80,7 @@ for id in Track_df['Id'].iteritems():
 Full_Data = Track_df.merge(Feat_df, left_on="Id", right_on="id")
 
 #END data sort
-Sort_DF = Full_Data.sort_values(by=['Popularity'], ascending=False).head(10)
-
-
-
+Sort_DF = Full_Data.sort_values(by=['Popularity'], ascending=False).head(13)
 
 #chart df 
 chart_df = Sort_DF[['Artist', 'Album Name', 'Song Name', 'Release Date', 'Popularity',"energy","albumID"]]
@@ -92,26 +90,55 @@ Name_of_Feat="energy"
 drop_deplicated_data=chart_df.drop_duplicates(subset=['Album Name'], keep="first").reset_index(drop=True)
 
 
-#chart
-st.header(f"Popularity+Energy Chart")
-c = alt.Chart(chart_df).mark_circle().encode(
-    alt.X('Popularity', scale=alt.Scale(zero=False)), y=f'{Name_of_Feat}', color=alt.Color('Popularity', scale=alt.Scale(type='log',scheme='rainbow')), 
-    size=alt.value(300), tooltip=['Popularity', f'{Name_of_Feat}', 'Song Name', 'Album Name']).interactive()
+#playlist show
 
-st.altair_chart(c, use_container_width=True)
-
-#test playlist
-playlist_df=spotify.playlist_search_json_createdata(query=Name_of_Movie)
-top_playlist_id=playlist_df["ID"][0]
-
-
-components.html(
+if Name_of_Movie:
+    playlist_df=spotify.playlist_search_json_createdata(query=Name_of_Movie)
+    top_playlist_id=playlist_df["ID"][0]
+    st.title("Playlist Search Result")
+    components.html(
             f"""
             
             <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/{top_playlist_id}?utm_source=generator" width="100%" height="380" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
                 """,
                 height=400
             ) 
+    #playlist table
+    with st.expander("See Playlist List"):
+        st.table(playlist_df[["Name","PlaylistURL"]].head(30))
+    
+else:
+    playlist_df=spotify.playlist_search_json_createdata(query="titanic")
+    top_playlist_id=playlist_df["ID"][0]
+    
+    st.title("Playlist Search Result")
+    components.html(
+            f"""
+            
+            <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/{top_playlist_id}?utm_source=generator" width="100%" height="380" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
+                """,
+                height=400
+            ) 
+    #playlist table
+    with st.expander("See more Playlist"):
+        st.table(playlist_df[["Name","PlaylistURL"]].head(10))
+
+
+#show data table
+st.header(f"{Name_of_Movie}  Song Search Result")
+
+
+#chart
+st.header(f"Song Popularity+Energy Chart")
+c = alt.Chart(chart_df).mark_circle().encode(
+    alt.X('Popularity', scale=alt.Scale(zero=False)), y=f'{Name_of_Feat}', color=alt.Color('Popularity', scale=alt.Scale(type='log',scheme='rainbow')), 
+    size=alt.value(300), tooltip=['Popularity', f'{Name_of_Feat}', 'Song Name', 'Album Name']).interactive()
+
+st.altair_chart(c, use_container_width=True)
+
+#table
+with st.expander("See more Song List"):
+    st.table(chart_df.head(10))
 
 #player show
 col1, col2,col3,col4= st.columns(4)
@@ -213,10 +240,6 @@ elif len(drop_deplicated_data["albumID"]) == 0:
 else:
     None
 
-
-#show data table
-st.header(f"{Name_of_Movie} Track List")
-st.table(chart_df)
 
 
 
