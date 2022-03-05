@@ -5,7 +5,9 @@ from profanity_detector.giphy import get_giphy
 from profanity_detector.movie_features import create_word_cloud, plot_word_cloud
 from profanity_detector.get_data import movie_data
 from profanity_detector.movie_features import create_word_cloud, plot_word_cloud
-from profanity_detector.feature_data_enrichment import enrich_locations
+from profanity_detector.geo_data import geo_map_main
+from streamlit_folium import folium_static
+import folium
 
 
 st.set_page_config(page_title="I m BD",
@@ -75,21 +77,20 @@ if movie_name:
         st.header ("QuoteCloud")
         plot_word_cloud(create_word_cloud(quotes_df,movie_meta['characters']))
         st.pyplot()
-    '''
+    
     with col3:
         st.header ("Gifs")
         #get giphs
         movies = get_giphy(movie_name)
         print(movies)
-    
+        
         for movie in movies:
             st.markdown(
                 "<iframe src= {} width='240' height='180' frameBorder='0' class='giphy-embed' allowFullScreen></iframe>".format(movie),
-                unsafe_allow_html=True)
-    '''
+                 unsafe_allow_html=True)
+    
 
 
     st.header ("Movie Locations")
-    movie_loations = enrich_locations(locations_df)
-    st.map(movie_loations)
-    
+    m = geo_map_main(locations_df)
+    folium_static(m)

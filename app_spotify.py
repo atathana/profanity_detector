@@ -9,6 +9,7 @@ import os
 import streamlit.components.v1 as components
 from IPython.core.display import display, HTML
 from streamlit_player import st_player
+
 from dotenv import load_dotenv
 
 
@@ -20,6 +21,7 @@ from dotenv import load_dotenv
 # make classs and make it compact ,import python file as class 
 #play music features??
 #connect to the devise
+
 
 # load_dotenv()
 # if 'client_id' and 'client_secret'in os.environ:
@@ -58,6 +60,7 @@ if Name_of_Movie:
     top_playlist_id=playlist_df["ID"][0]
     st.title("Playlist Search Result")
     components.html(
+
             f"""
             
             <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/{top_playlist_id}?utm_source=generator" width="100%" height="380" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
@@ -133,9 +136,10 @@ elif len(drop_deplicated_data["albumID"]) > 1:
         uri1=drop_deplicated_data["albumID"][1]
         components.html(
             f"""
+
             <iframe src=https://open.spotify.com/embed/album/{uri1} width="200" height="500" frameborder="50" allowtransparency="true" 
             allow="encrypted-media" ></iframe>
-                """,
+
                 height=400,
             )
     with col1:
