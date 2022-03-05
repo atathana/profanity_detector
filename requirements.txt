@@ -33,8 +33,18 @@ beautifulsoup4
 streamlit
 python-dotenv
 git+https://github.com/cinemagoer/cinemagoer
-geopy
 hatesonar==0.0.5
 wordcloud
 vaderSentiment
 
+#spotify
+altair
+streamlit_player
+
+#location_tagging
+geopy
+geograpy
+nltk
+spacy
+
+folium
