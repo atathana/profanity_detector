@@ -5,7 +5,7 @@ from profanity_detector.giphy import get_giphy
 from profanity_detector.movie_features import create_word_cloud, plot_word_cloud
 from profanity_detector.get_data import movie_data
 from profanity_detector.movie_features import create_word_cloud, plot_word_cloud
-from profanity_detector.feature_data_enrichment import get_geolocation_data
+#from profanity_detector.feature_data_enrichment import get_geolocation_data
 
 
 st.set_page_config(page_icon="film_frames",
@@ -31,7 +31,7 @@ def app():
         st.header(" :movie_camera: Movie Information ")
         col1, col2, col3 = st.columns(3)
 
-        #show_meta_data
+        # -----SHOW METADATA ----------------------------
         with col1:
             st.subheader(f" Title: {movie_meta['title']}")
             st.image(movie_meta['cover_url'],
@@ -46,8 +46,6 @@ def app():
                 f":moneybag: Box Office: US $ {movie_meta['box_office']}")
             st.subheader(f":star: Rating : {movie_meta['rating']}/10")
 
-        #     #star_rating = ":star:" * int(round(movie_meta['rating'], 0))
-        #     # st.subheader(f"{movie_meta['rating']} {star_rating}")
 
         with col3:
             st.subheader('Cast')
@@ -98,25 +96,26 @@ def app():
                     .format(movies[4]),
                     unsafe_allow_html=True)
 
-            # with col_right:
 
-            # # MOVIE LOCATIONS
-        col_left, col_right = st.columns([2,1])
 
-        with col_left:
-                st.header(" :round_pushpin: Filming Locations")
+        # ----------------MOVIE LOCATIONS---------------
 
-                st.subheader('Countries')
-                with st.expander("See Countries"):
-                    for country in movie_meta['countries']:
-                        st.text(country)
+        # col_left, col_right = st.columns([2,1])
 
-                movie_locations = get_geolocation_data(locations_df)
-                st.map(movie_locations)
-                st.markdown('---')
+        # with col_left:
+        #         st.header(" :round_pushpin: Filming Locations")
 
-        with col_right:
-                st.header(" Placeholder")
+        #         st.subheader('Countries')
+        #         with st.expander("See Countries"):
+        #             for country in movie_meta['countries']:
+        #                 st.text(country)
+
+        #         movie_locations = get_geolocation_data(locations_df)
+        #         st.map(movie_locations)
+        #         st.markdown('---')
+
+        # with col_right:
+        #         st.header(" Placeholder")
 
 
 
