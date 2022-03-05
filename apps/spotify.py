@@ -9,11 +9,6 @@ import json
 from os import path
 #from apps.home import input
 
-
-client_id = 'de83171c026d4ca0b749e33b50496a60'
-client_secret = '87a1f7300bf947fab323722e0418801f'
-
-
 def app():
     st.title('SPOTIFY')
 
