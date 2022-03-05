@@ -78,7 +78,7 @@ if movie_name:
         plot_word_cloud(create_word_cloud(quotes_df,movie_meta['characters']))
         st.pyplot()
     
-     with col3:
+    with col3:
          st.header ("Gifs")
          #get giphs
          movies = get_giphy(movie_name)
