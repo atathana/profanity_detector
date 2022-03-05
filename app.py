@@ -79,14 +79,14 @@ if movie_name:
         st.pyplot()
     
     with col3:
-         st.header ("Gifs")
-         #get giphs
-         movies = get_giphy(movie_name)
-         print(movies)
-    
-         for movie in movies:
-             st.markdown(
-                 "<iframe src= {} width='240' height='180' frameBorder='0' class='giphy-embed' allowFullScreen></iframe>".format(movie),
+        st.header ("Gifs")
+        #get giphs
+        movies = get_giphy(movie_name)
+        print(movies)
+        
+        for movie in movies:
+            st.markdown(
+                "<iframe src= {} width='240' height='180' frameBorder='0' class='giphy-embed' allowFullScreen></iframe>".format(movie),
                  unsafe_allow_html=True)
     
 
