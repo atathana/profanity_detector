@@ -147,16 +147,7 @@ class SpotifyAPI(object):
         query_params = urlencode({"q": query, "type": search_type.lower()})
         print(query_params)
         return self.base_search(query_params)
-<<<<<<< HEAD
 
-
-    def spotify_get_organised_data(self,moviename):
-        #Data
-        Data = spotify.search({"album": f"{Name_of_Movie}"}, search_type="track")
-
-        #need contents
-=======
-    
 
         #playlist_json_data
     def playlist_search_json_createdata(self,query="tatanic"):
@@ -166,23 +157,22 @@ class SpotifyAPI(object):
         need_playlist= []
         for i, item in enumerate(playlists_json["playlists"]["items"]):
             need_playlist.append((i,
-                          item["name"], 
+                          item["name"],
                           item["external_urls"]["spotify"],
                           item["id"],
                           item["images"][0]["url"],
-                         
+
          ))
             playlist_df = pd.DataFrame(need_playlist,index=None,columns=('item','Name','PlaylistURL','ID','ImageURL'))
         return playlist_df
-    
-    
+
+
     def spotify_get_organised_data(self,Name_of_Movie):
             #Data
         Data = self.search({"album": f"{Name_of_Movie}"}, search_type="track")
 
-        
-        #need contents 
->>>>>>> master
+
+        #need contents
         need = []
         for i, item in enumerate(Data['tracks']['items']):
             track = item['album']
@@ -220,28 +210,20 @@ class SpotifyAPI(object):
 
         #chart df drop deplicate
         drop_deplicated_data=chart_df.drop_duplicates(subset=['Album Name'], keep="first").reset_index(drop=True)
-<<<<<<< HEAD
+
 
         return drop_deplicated_data
-=======
-        
 
-        return drop_deplicated_data
-    
     def playlist(self):
         playlists_json=self.spotify.search(query="titanic",search_type="playlist")
-        
+
         need_playlist= []
         for i, item in enumerate(playlists_json["playlists"]["items"]):
             need_playlist.append((i,
-                          item["name"], 
+                          item["name"],
                           item["external_urls"]["spotify"],
                           item["id"],
                           item["images"][0]["url"],
-                         
+
          ))
         return need_playlist
-        
-        
-
->>>>>>> master

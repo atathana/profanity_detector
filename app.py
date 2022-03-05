@@ -92,7 +92,3 @@ if movie_name:
     st.header ("Movie Locations")
     movie_loations = enrich_locations(locations_df)
     st.map(movie_loations)
-<<<<<<< HEAD
-=======
-    
->>>>>>> master

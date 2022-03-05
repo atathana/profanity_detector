@@ -23,14 +23,6 @@ from dotenv import load_dotenv
 #play music features??
 #connect to the devise
 
-<<<<<<< HEAD:apps/app_spotify.py
-# # client_id = os.environ.get("CLIENTID")
-# # client_secret=os.environ.get("CLIENTSEC")
-client_id ="5c89e3fbc1514489ba396629b99ead14"
-client_secret="ff02150e1f764930be352d8789f1067b"
-
-spotify = SpotifyAPI(client_id, client_secret)
-=======
 
 load_dotenv()
 if 'client_id' and 'client_secret'in os.environ:
@@ -39,7 +31,6 @@ if 'client_id' and 'client_secret'in os.environ:
 else:
     client_id = os.environ('client_id')
     client_secret = os.environ('client_secret')
->>>>>>> master:app_spotify.py
 
 #Menu
 # Use the full page instead of a narrow central column
@@ -118,11 +109,11 @@ top_playlist_id=playlist_df["ID"][0]
 
 components.html(
             f"""
-            
+
             <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/{top_playlist_id}?utm_source=generator" width="100%" height="380" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
                 """,
                 height=400
-            ) 
+            )
 
 #player show
 col1, col2,col3,col4= st.columns(4)
@@ -170,17 +161,10 @@ elif len(drop_deplicated_data["albumID"]) > 1:
         components.html(
             f"""
 
-<<<<<<< HEAD:apps/app_spotify.py
-             <iframe src=https://open.spotify.com/embed/album/{uri1} width="230" height="500" frameborder="50" allowtransparency="true"
-            allow="encrypted-media" ></iframe>
-
-
-=======
             <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/5AQJpvFYJa2zGe0pScL2up?utm_source=generator" width="100%" height="380" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
 
 
-            
->>>>>>> master:app_spotify.py
+
                 """,
                 height=400,
             )
