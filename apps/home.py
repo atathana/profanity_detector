@@ -5,7 +5,7 @@ from profanity_detector.giphy import get_giphy
 from profanity_detector.movie_features import create_word_cloud, plot_word_cloud
 from profanity_detector.get_data import movie_data
 from profanity_detector.movie_features import create_word_cloud, plot_word_cloud
-#from profanity_detector.feature_data_enrichment import get_geolocation_data
+from profanity_detector.geo_data import enrich_locations
 
 
 st.set_page_config(page_icon="film_frames",
@@ -64,58 +64,64 @@ def app():
 
         # -------------GIPHYS--------------------------
 
-        col4, col5, col6, col7, col8 = st.columns(5)
+        # col4, col5, col6, col7, col8 = st.columns(5)
 
-        movies = get_giphy(movie_name)
-        with col4 :
-            st.markdown(
-                    "<iframe src= {} width='240' height='180' frameBorder='0' class='giphy-embed' allowFullScreen></iframe>"
-                    .format(movies[0]),
-                    unsafe_allow_html=True)
+        # movies = get_giphy(movie_name)
+        # with col4 :
+        #     st.markdown(
+        #             "<iframe src= {} width='240' height='180' frameBorder='0' class='giphy-embed' allowFullScreen></iframe>"
+        #             .format(movies[0]),
+        #             unsafe_allow_html=True)
 
-        with col5 :
-            st.markdown(
-                    "<iframe src= {} width='240' height='180' frameBorder='0' class='giphy-embed' allowFullScreen></iframe>"
-                    .format(movies[1]),
-                    unsafe_allow_html=True)
-        with col6 :
-            st.markdown(
-                    "<iframe src= {} width='240' height='180' frameBorder='0' class='giphy-embed' allowFullScreen></iframe>"
-                    .format(movies[2]),
-                    unsafe_allow_html=True)
+        # with col5 :
+        #     st.markdown(
+        #             "<iframe src= {} width='240' height='180' frameBorder='0' class='giphy-embed' allowFullScreen></iframe>"
+        #             .format(movies[1]),
+        #             unsafe_allow_html=True)
+        # with col6 :
+        #     st.markdown(
+        #             "<iframe src= {} width='240' height='180' frameBorder='0' class='giphy-embed' allowFullScreen></iframe>"
+        #             .format(movies[2]),
+        #             unsafe_allow_html=True)
 
-        with col7 :
-            st.markdown(
-                    "<iframe src= {} width='240' height='180' frameBorder='0' class='giphy-embed' allowFullScreen></iframe>"
-                    .format(movies[3]),
-                    unsafe_allow_html=True)
+        # with col7 :
+        #     st.markdown(
+        #             "<iframe src= {} width='240' height='180' frameBorder='0' class='giphy-embed' allowFullScreen></iframe>"
+        #             .format(movies[3]),
+        #             unsafe_allow_html=True)
 
-        with col8 :
-            st.markdown(
-                    "<iframe src= {} width='240' height='180' frameBorder='0' class='giphy-embed' allowFullScreen></iframe>"
-                    .format(movies[4]),
-                    unsafe_allow_html=True)
+        # with col8 :
+        #     st.markdown(
+        #             "<iframe src= {} width='240' height='180' frameBorder='0' class='giphy-embed' allowFullScreen></iframe>"
+        #             .format(movies[4]),
+        #             unsafe_allow_html=True)
+
+
+        st.markdown('---')
 
 
 
         # ----------------MOVIE LOCATIONS---------------
 
-        # col_left, col_right = st.columns([2,1])
+        col_left, col_right = st.columns([2,1])
 
-        # with col_left:
-        #         st.header(" :round_pushpin: Filming Locations")
+        with col_left:
+            st.header(" :round_pushpin: Locations ")
+            st.subheader("Countries")
+            with st.expander("See Countries"):
+                for country in movie_meta['countries']:
+                    st.text(country)
 
-        #         st.subheader('Countries')
-        #         with st.expander("See Countries"):
-        #             for country in movie_meta['countries']:
-        #                 st.text(country)
+            st.subheader(" Filming Locations")
+            # movie_locations = enrich_locations(locations_df)
+            # st.map(movie_locations)
+            # st.markdown('---')
 
-        #         movie_locations = get_geolocation_data(locations_df)
-        #         st.map(movie_locations)
-        #         st.markdown('---')
+        with col_right:
+            st.header(" :notes: Music ")
+            st.subheader(" Spotify List")
 
-        # with col_right:
-        #         st.header(" Placeholder")
+
 
 
 

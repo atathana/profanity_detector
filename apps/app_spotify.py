@@ -13,19 +13,20 @@ from streamlit_player import st_player
 
 
 
-#To do 
+#To do
 #get os.environ.get
 #git conflicts :push all?
 #combine into app.py to the latest one
 #need from dotenv import load_dotenv?
-# make classs and make it compact ,import python file as class 
+# make classs and make it compact ,import python file as class
 #play music features??
 #connect to the devise
 
-# client_id = os.environ.get("CLIENTID")
-# client_secret=os.environ.get("CLIENTSEC")
+# # client_id = os.environ.get("CLIENTID")
+# # client_secret=os.environ.get("CLIENTSEC")
 client_id ="5c89e3fbc1514489ba396629b99ead14"
 client_secret="ff02150e1f764930be352d8789f1067b"
+
 spotify = SpotifyAPI(client_id, client_secret)
 
 #Menu
@@ -48,7 +49,7 @@ Name_of_Movie = st.text_input("Movie Name")
 
 #Start Data  or you can use class potify.spotify_get_organised_data func from spotify_func.py
 Data = spotify.search({"album": f"{Name_of_Movie}"}, search_type="track")
-#need contents 
+#need contents
 need = []
 for i, item in enumerate(Data['tracks']['items']):
     track = item['album']
@@ -83,7 +84,7 @@ Sort_DF = Full_Data.sort_values(by=['Popularity'], ascending=False).head(10)
 
 
 
-#chart df 
+#chart df
 chart_df = Sort_DF[['Artist', 'Album Name', 'Song Name', 'Release Date', 'Popularity',"energy","albumID"]]
 Name_of_Feat="energy"
 
@@ -94,7 +95,7 @@ drop_deplicated_data=chart_df.drop_duplicates(subset=['Album Name'], keep="first
 #chart
 st.header(f"Popularity+Energy Chart")
 c = alt.Chart(chart_df).mark_circle().encode(
-    alt.X('Popularity', scale=alt.Scale(zero=False)), y=f'{Name_of_Feat}', color=alt.Color('Popularity', scale=alt.Scale(type='log',scheme='rainbow')), 
+    alt.X('Popularity', scale=alt.Scale(zero=False)), y=f'{Name_of_Feat}', color=alt.Color('Popularity', scale=alt.Scale(type='log',scheme='rainbow')),
     size=alt.value(300), tooltip=['Popularity', f'{Name_of_Feat}', 'Song Name', 'Album Name']).interactive()
 
 st.altair_chart(c, use_container_width=True)
@@ -110,46 +111,46 @@ if len(drop_deplicated_data["albumID"]) == 1:
         components.html(
             f"""
 
-            <iframe src=https://open.spotify.com/embed/album/{uri} width="200" height="400" frameborder="50" allowtransparency="true" 
+            <iframe src=https://open.spotify.com/embed/album/{uri} width="200" height="400" frameborder="50" allowtransparency="true"
             allow="encrypted-media" ></iframe>
 
-            
+
                 """,
                 height=400
-            ) 
+            )
     with col2:
         components.html(
             f"""
-            
+
            <img  src="https://img.icons8.com/external-xnimrodx-lineal-gradient-xnimrodx/64/000000/external-audio-online-learning-xnimrodx-lineal-gradient-xnimrodx.png"/>
-            
+
                 """,
                 height=300
-            ) 
-        
-        
+            )
+
+
 elif len(drop_deplicated_data["albumID"]) > 1:
     with col2:
         uri=drop_deplicated_data["albumID"][0]
         components.html(
             f"""
 
-            <iframe src=https://open.spotify.com/embed/album/{uri} width="200" height="500" frameborder="50" allowtransparency="true" 
+            <iframe src=https://open.spotify.com/embed/album/{uri} width="200" height="500" frameborder="50" allowtransparency="true"
             allow="encrypted-media" ></iframe>
 
-            
+
                 """,
                 height=400
-            )    
+            )
     with col3:
         uri1=drop_deplicated_data["albumID"][1]
         components.html(
             f"""
 
-             <iframe src=https://open.spotify.com/embed/album/{uri1} width="230" height="500" frameborder="50" allowtransparency="true" 
+             <iframe src=https://open.spotify.com/embed/album/{uri1} width="230" height="500" frameborder="50" allowtransparency="true"
             allow="encrypted-media" ></iframe>
-            
-            
+
+
                 """,
                 height=400,
             )
@@ -158,32 +159,32 @@ elif len(drop_deplicated_data["albumID"]) > 1:
             f"""
             <div style="text-align: center;">
             <img src="https://img.icons8.com/external-xnimrodx-lineal-gradient-xnimrodx/64/000000/external-audio-online-learning-xnimrodx-lineal-gradient-xnimrodx.png"/>
-            
+
             </div>
                 """,
                 height=100
-            ) 
-        
+            )
+
         components.html(
             f"""
-            
+
             <img src="https://img.icons8.com/external-tulpahn-flat-tulpahn/64/000000/external-audio-mobile-user-interface-tulpahn-flat-tulpahn.png"/>
-            
+
                 """,
                 height=100
-            ) 
-        
+            )
+
         with col4:
             components.html(
             f"""
             <div style="margin-left:30px;">
             <img src="https://img.icons8.com/external-flaticons-lineal-color-flat-icons/64/000000/external-audio-edm-flaticons-lineal-color-flat-icons-2.png"/>
-            
+
             </div>
                 """,
                 height=100
-            ) 
-        
+            )
+
             components.html(
             f"""
             <div style="text-align: right;">
@@ -191,11 +192,11 @@ elif len(drop_deplicated_data["albumID"]) > 1:
             </div>
                 """,
                 height=100
-            ) 
-            
+            )
+
 elif len(drop_deplicated_data["albumID"]) == 0:
     None
-    
+
 else:
     None
 
@@ -203,9 +204,3 @@ else:
 #show data table
 st.header(f"{Name_of_Movie} Track List")
 st.table(chart_df)
-
-
-
-
-
-

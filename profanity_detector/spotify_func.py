@@ -19,25 +19,25 @@ class SpotifyAPI(object):
     access_token_expires=datetime.datetime.now()
     access_token_did_expires=True
     client_id=None
-    client_secret=None    
+    client_secret=None
     token_url='https://accounts.spotify.com/api/token'
-    
+
     def __init__(self,client_id,client_secret,*args,**kwargs):
         super().__init__(*args,**kwargs)#inherit from another class
         self.client_id=client_id
         self.client_secret=client_secret
-        
+
     def get_client_credentials(self):
         """
         return 64 string
         """
-        
+
         client_id=self.client_id
         client_secret=self.client_secret
         if client_secret==None or client_id== None:
             raise Exception("you must set client id and client secret")
         client_creds=f"{client_id}:{client_secret}"
-        client_creds_b64=base64.b64encode(client_creds.encode()) 
+        client_creds_b64=base64.b64encode(client_creds.encode())
         return client_creds_b64.decode()
 
     def get_token_headers(self):
@@ -45,17 +45,17 @@ class SpotifyAPI(object):
         return {
     "Authorization": f"Basic {client_creds_b64}"#Basic <base64 encoded client_id:client_secret>"
         }
-            
+
     def get_token_data(self):
             return{
     "grant_type": 'client_credentials'
             }
-    
+
     def perform_auth(self):
         token_url=self.token_url
         token_data=self.get_token_data()
         token_headers=self.get_token_headers()
-        
+
         r=requests.post(token_url,data=token_data,headers=token_headers)
 
         if r.status_code not in range(200,299):
@@ -63,7 +63,7 @@ class SpotifyAPI(object):
         token_response_data=r.json()
         now=datetime.datetime.now()
         data=r.json()
-        
+
         access_token = data['access_token']
         expires_in = data['expires_in'] # seconds
         expires = now + datetime.timedelta(seconds=expires_in)
@@ -71,22 +71,22 @@ class SpotifyAPI(object):
         self.access_token_expires = expires
         self.access_token_did_expire = expires < now
         return True
-    
+
     def get_access_token(self):
-                
+
         token=self.access_token
         expires=self.access_token_expires
         now=datetime.datetime.now()
-        
+
         if expires < now:
             self.perform_auth()
             return self.get_access_token()
         elif token==None:
             self.perform_auth()
             return self.get_access_token
-            
+
         return token
-    
+
     #header
     def get_resource_header(self):
             access_token = self.get_access_token()
@@ -108,7 +108,7 @@ class SpotifyAPI(object):
     def get_album(self, _id):
         return self.get_resource(_id, resource_type='albums')
 
-    #artist json 
+    #artist json
     def get_artist(self, _id):
         return self.get_resource(_id, resource_type='artists')
 
@@ -118,35 +118,35 @@ class SpotifyAPI(object):
         endpoint = "https://api.spotify.com/v1/search"
         lookup_url = f"{endpoint}?{query_params}"
         r = requests.get(lookup_url, headers=headers)
-        if r.status_code not in range(200, 299):  
+        if r.status_code not in range(200, 299):
             return {}
         return r.json()
-    
+
     #query : dic or string  %20 is space
     def search(self,query=None, operator=None,operator_query=None ,search_type='track'):
         if query == None:
                raise Exception("A query is required")
-               
+
         if isinstance(query,dict):
-               query=" ".join([f"{key},{value}"for key,value in query.items()])#inline 
-                
+               query=" ".join([f"{key},{value}"for key,value in query.items()])#inline
+
         if operator != None and operator_query!=None:
             operator=operator.upper()
             if operator== "or" or operator.lower=="not":
                 operator=operator.upper()
                 if isinstance(operator_query,str):
                     query=f"{query}{operator}{operator_query}"
-               
+
         query_params = urlencode({"q": query, "type": search_type.lower()})
         print(query_params)
         return self.base_search(query_params)
-    
-    
+
+
     def spotify_get_organised_data(self,moviename):
         #Data
         Data = spotify.search({"album": f"{Name_of_Movie}"}, search_type="track")
-        
-        #need contents 
+
+        #need contents
         need = []
         for i, item in enumerate(Data['tracks']['items']):
             track = item['album']
@@ -178,11 +178,11 @@ class SpotifyAPI(object):
         #sort
         Sort_DF = Full_Data.sort_values(by=['Popularity'], ascending=False).head(10)
 
-        #chart df 
+        #chart df
         chart_df = Sort_DF[['Artist', 'Album Name', 'Song Name', 'Release Date', 'Popularity',"energy","albumID"]]
         Name_of_Feat="energy"
 
         #chart df drop deplicate
         drop_deplicated_data=chart_df.drop_duplicates(subset=['Album Name'], keep="first").reset_index(drop=True)
-        
+
         return drop_deplicated_data
