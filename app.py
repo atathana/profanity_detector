@@ -20,6 +20,7 @@ st.text('International Movie Bible Dashboard')
 
 movie_name = st.text_input("What Is Your Favourite Movie? : ", '')
 
+
 if movie_name:
 
     col1, col2, col3 = st.columns(3)
@@ -91,3 +92,4 @@ if movie_name:
     st.header ("Movie Locations")
     movie_loations = enrich_locations(locations_df)
     st.map(movie_loations)
+    
