@@ -22,6 +22,7 @@ st.text('International Movie Bible Dashboard')
 
 movie_name = st.text_input("What Is Your Favourite Movie? : ", '')
 
+
 if movie_name:
 
     col1, col2, col3 = st.columns(3)
@@ -77,23 +78,19 @@ if movie_name:
         plot_word_cloud(create_word_cloud(quotes_df,movie_meta['characters']))
         st.pyplot()
     
-    # with col3:
-    #     st.header ("Gifs")
-    #     #get giphs
-    #     movies = get_giphy(movie_name)
-    #     print(movies)
+     with col3:
+         st.header ("Gifs")
+         #get giphs
+         movies = get_giphy(movie_name)
+         print(movies)
     
-    #     for movie in movies:
-    #         st.markdown(
-    #             "<iframe src= {} width='240' height='180' frameBorder='0' class='giphy-embed' allowFullScreen></iframe>".format(movie),
-    #             unsafe_allow_html=True)
+         for movie in movies:
+             st.markdown(
+                 "<iframe src= {} width='240' height='180' frameBorder='0' class='giphy-embed' allowFullScreen></iframe>".format(movie),
+                 unsafe_allow_html=True)
     
 
 
     st.header ("Movie Locations")
-    
-    #movie_locations = enrich_locations(locations_df)
-    #st.map(movie_locations)
-
     m = geo_map_main(locations_df)
     folium_static(m)
