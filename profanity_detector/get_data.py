@@ -41,7 +41,6 @@ def get_meta_data(movie_data):
 
     #cast = cast[:5]
 
-
     # create character list
     characters = []
     for i in range(len(movie_data['cast'])):

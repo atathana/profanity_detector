@@ -6,10 +6,17 @@ from  urllib.parse import urlencode
 import base64
 import pandas as pd
 
-# client_id = os.environ.get("CLIENTID")
-# client_secret=os.environ.get("CLIENTSEC")
-client_id ="5c89e3fbc1514489ba396629b99ead14"
-client_secret="ff02150e1f764930be352d8789f1067b"
+from dotenv import load_dotenv
+
+load_dotenv()
+if 'client_id' and 'client_secret'in os.environ:
+    client_id = os.getenv('client_id')
+    client_secret = os.getenv('client_secret')
+else:
+    client_id = os.environ('client_id')
+    client_secret = os.environ('client_secret')
+
+
 #class+search method
 #another search method type https://developer.spotify.com/documentation/web-api/reference/#/operations/search
 
@@ -140,6 +147,7 @@ class SpotifyAPI(object):
         query_params = urlencode({"q": query, "type": search_type.lower()})
         print(query_params)
         return self.base_search(query_params)
+<<<<<<< HEAD
 
 
     def spotify_get_organised_data(self,moviename):
@@ -147,6 +155,34 @@ class SpotifyAPI(object):
         Data = spotify.search({"album": f"{Name_of_Movie}"}, search_type="track")
 
         #need contents
+=======
+    
+
+        #playlist_json_data
+    def playlist_search_json_createdata(self,query="tatanic"):
+        playlists_json=self.search(query=query,search_type="playlist")
+
+        #Data
+        need_playlist= []
+        for i, item in enumerate(playlists_json["playlists"]["items"]):
+            need_playlist.append((i,
+                          item["name"], 
+                          item["external_urls"]["spotify"],
+                          item["id"],
+                          item["images"][0]["url"],
+                         
+         ))
+            playlist_df = pd.DataFrame(need_playlist,index=None,columns=('item','Name','PlaylistURL','ID','ImageURL'))
+        return playlist_df
+    
+    
+    def spotify_get_organised_data(self,Name_of_Movie):
+            #Data
+        Data = self.search({"album": f"{Name_of_Movie}"}, search_type="track")
+
+        
+        #need contents 
+>>>>>>> master
         need = []
         for i, item in enumerate(Data['tracks']['items']):
             track = item['album']
@@ -184,5 +220,28 @@ class SpotifyAPI(object):
 
         #chart df drop deplicate
         drop_deplicated_data=chart_df.drop_duplicates(subset=['Album Name'], keep="first").reset_index(drop=True)
+<<<<<<< HEAD
 
         return drop_deplicated_data
+=======
+        
+
+        return drop_deplicated_data
+    
+    def playlist(self):
+        playlists_json=self.spotify.search(query="titanic",search_type="playlist")
+        
+        need_playlist= []
+        for i, item in enumerate(playlists_json["playlists"]["items"]):
+            need_playlist.append((i,
+                          item["name"], 
+                          item["external_urls"]["spotify"],
+                          item["id"],
+                          item["images"][0]["url"],
+                         
+         ))
+        return need_playlist
+        
+        
+
+>>>>>>> master
