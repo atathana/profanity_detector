@@ -3,4 +3,4 @@ words
 treebank
 maxent_treebank_pos_tagger
 punkt
-avereged_perceptron_tagger
+averaged_perceptron_tagger
