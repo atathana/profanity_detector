@@ -8,13 +8,16 @@ import os
 from dotenv import load_dotenv
 
 load_dotenv()
-if 'client_id' and 'client_secret'in os.environ:
+if 'client_id' and 'client_secret' in os.environ:
     client_id = os.getenv('client_id')
     client_secret = os.getenv('client_secret')
 else:
     client_id = os.environ('client_id')
     client_secret = os.environ('client_secret')
 
+
+# client_id = 'de83171c026d4ca0b749e33b50496a60'
+# client_secret = '87a1f7300bf947fab323722e0418801f'
 
 st.set_page_config(page_title="I m BD",
                    page_icon="film_frames",
@@ -31,9 +34,8 @@ if movie_name:
     uri=SpotifyAPI(client_id,client_secret).spotify_get_organised_data(Name_of_Movie=movie_name)["albumID"][0]
     components.html(
             f"""
-            <iframe src=https://open.spotify.com/embed/album/{uri} width="400" height="500" frameborder="50" allowtransparency="true" 
+            <iframe src=https://open.spotify.com/embed/album/{uri} width="400" height="500" frameborder="50" allowtransparency="true"
             allow="encrypted-media" ></iframe>
                 """,
                 height=500
-            )  
-
+            )

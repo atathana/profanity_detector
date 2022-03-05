@@ -6,6 +6,10 @@ from profanity_detector.movie_features import create_word_cloud, plot_word_cloud
 from profanity_detector.get_data import movie_data
 from profanity_detector.movie_features import create_word_cloud, plot_word_cloud
 from profanity_detector.geo_data import enrich_locations
+import streamlit.components.v1 as components
+from profanity_detector.spotify_func import SpotifyAPI
+import json
+from os import path
 
 
 st.set_page_config(page_icon="film_frames",
@@ -13,20 +17,39 @@ st.set_page_config(page_icon="film_frames",
                    initial_sidebar_state="expanded")
 
 
-#@st.cache
+
+@st.cache
+def load_data(movie_name):
+    return movie_data(movie_name)
+
+
+@st.cache
+def data_reload():
+    if path.exists('movie.json'):
+        json.dump({'movie': ""}, open('movie.json', 'w'))
+
+
+data_reload()
+
 def app():
+
     st.title("IMBd - International Movie Bible Dashboard")
     st.header("Ready - Set - Action! :clapper: ")
 
     st.markdown('##')
-    movie_name = st.text_input(" What Is Your Favourite Movie ? : ",
-                               '')
-    st.markdown('---')
 
+    if path.exists('movie.json'):
+        movie_name = json.load(open('movie.json', 'r'))['movie']
+        movie_name = st.text_input(" What Is Your Favourite Movie ? : ", movie_name)
+    else:
+        movie_name = st.text_input(" What Is Your Favourite Movie ? : ", '')
+
+    st.markdown('---')
 
     if movie_name:
         #get data
-        movie_meta, quotes_df, reviews_df, locations_df = movie_data(movie_name)
+        json.dump({'movie': movie_name}, open('movie.json', 'w'))
+        movie_meta, quotes_df, reviews_df, locations_df = load_data(movie_name)
 
         st.header(" :movie_camera: Movie Information ")
         col1, col2, col3 = st.columns(3)
@@ -62,50 +85,64 @@ def app():
 
         st.header(" :smile: Most Popular Gifs")
 
-        # -------------GIPHYS--------------------------
+        #-------------GIPHYS--------------------------
 
-        # col4, col5, col6, col7, col8 = st.columns(5)
+        col4, col5, col6, col7, col8 = st.columns(5)
 
-        # movies = get_giphy(movie_name)
-        # with col4 :
-        #     st.markdown(
-        #             "<iframe src= {} width='240' height='180' frameBorder='0' class='giphy-embed' allowFullScreen></iframe>"
-        #             .format(movies[0]),
-        #             unsafe_allow_html=True)
+        movies = get_giphy(movie_name)
+        with col4 :
+            st.markdown(
+                    "<iframe src= {} width='240' height='180' frameBorder='0' class='giphy-embed' allowFullScreen></iframe>"
+                    .format(movies[0]),
+                    unsafe_allow_html=True)
 
-        # with col5 :
-        #     st.markdown(
-        #             "<iframe src= {} width='240' height='180' frameBorder='0' class='giphy-embed' allowFullScreen></iframe>"
-        #             .format(movies[1]),
-        #             unsafe_allow_html=True)
-        # with col6 :
-        #     st.markdown(
-        #             "<iframe src= {} width='240' height='180' frameBorder='0' class='giphy-embed' allowFullScreen></iframe>"
-        #             .format(movies[2]),
-        #             unsafe_allow_html=True)
+        with col5 :
+            st.markdown(
+                    "<iframe src= {} width='240' height='180' frameBorder='0' class='giphy-embed' allowFullScreen></iframe>"
+                    .format(movies[1]),
+                    unsafe_allow_html=True)
+        with col6 :
+            st.markdown(
+                    "<iframe src= {} width='240' height='180' frameBorder='0' class='giphy-embed' allowFullScreen></iframe>"
+                    .format(movies[2]),
+                    unsafe_allow_html=True)
 
-        # with col7 :
-        #     st.markdown(
-        #             "<iframe src= {} width='240' height='180' frameBorder='0' class='giphy-embed' allowFullScreen></iframe>"
-        #             .format(movies[3]),
-        #             unsafe_allow_html=True)
+        with col7 :
+            st.markdown(
+                    "<iframe src= {} width='240' height='180' frameBorder='0' class='giphy-embed' allowFullScreen></iframe>"
+                    .format(movies[3]),
+                    unsafe_allow_html=True)
 
-        # with col8 :
-        #     st.markdown(
-        #             "<iframe src= {} width='240' height='180' frameBorder='0' class='giphy-embed' allowFullScreen></iframe>"
-        #             .format(movies[4]),
-        #             unsafe_allow_html=True)
+        with col8 :
+            st.markdown(
+                    "<iframe src= {} width='240' height='180' frameBorder='0' class='giphy-embed' allowFullScreen></iframe>"
+                    .format(movies[4]),
+                    unsafe_allow_html=True)
 
 
         st.markdown('---')
 
+        col_left, col_right = st.columns([1,1])
 
+        # -------------- MUSIC ---------------
 
-        # ----------------MOVIE LOCATIONS---------------
-
-        col_left, col_right = st.columns([2,1])
+        client_id = 'de83171c026d4ca0b749e33b50496a60'
+        client_secret = '87a1f7300bf947fab323722e0418801f'
 
         with col_left:
+            st.header(" :notes: Music ")
+            st.subheader(" Spotify List")
+            playlist_df = SpotifyAPI(client_id, client_secret).playlist_search_json_createdata(
+                    query=movie_name)
+            top_playlist_id=playlist_df["ID"][0]
+            components.html(f"""
+                            <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/{top_playlist_id}?utm_source=generator" width="100%" height="380" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
+                """,
+                height=400
+                            )
+
+        # ----------------MOVIE LOCATIONS---------------
+        with col_right:
             st.header(" :round_pushpin: Locations ")
             st.subheader("Countries")
             with st.expander("See Countries"):
@@ -113,23 +150,6 @@ def app():
                     st.text(country)
 
             st.subheader(" Filming Locations")
-            # movie_locations = enrich_locations(locations_df)
-            # st.map(movie_locations)
-            # st.markdown('---')
-
-        with col_right:
-            st.header(" :notes: Music ")
-            st.subheader(" Spotify List")
-
-
-
-
-
-
-
-
-
-
-#     st.header("QuoteCloud")
-#     plot_word_cloud(create_word_cloud(quotes_df))
-#     st.pyplot()
+            movie_locations = enrich_locations(locations_df)
+            st.map(movie_locations)
+            st.markdown('---')
