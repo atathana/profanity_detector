@@ -83,10 +83,10 @@ def get_coordinates(location):
 
 def get_country_from_coordinates(latitude, longitude):
     loc = Nominatim(user_agent="profanity_detector")
-    getLoc = loc.geocode(location)
-    reverse_location = loc.reverse([getLoc.latitude, getLoc.longitude])
+    reverse_location = loc.reverse([latitude, longitude])
     country_name = reverse_location.raw['address']['country']
     return country_name
+
 
 
 

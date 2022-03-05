@@ -74,7 +74,7 @@ if movie_name:
         st.header ("QuoteCloud")
         plot_word_cloud(create_word_cloud(quotes_df,movie_meta['characters']))
         st.pyplot()
-    '''
+    
     with col3:
         st.header ("Gifs")
         #get giphs
@@ -85,7 +85,7 @@ if movie_name:
             st.markdown(
                 "<iframe src= {} width='240' height='180' frameBorder='0' class='giphy-embed' allowFullScreen></iframe>".format(movie),
                 unsafe_allow_html=True)
-    '''
+    
 
 
     st.header ("Movie Locations")
