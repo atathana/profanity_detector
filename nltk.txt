@@ -1,1 +1,6 @@
-geograpy-nltk
+maxent_ne_chunker
+words
+treebank
+maxent_treebank_pos_tagger
+punkt
+avereged_perceptron_tagger
