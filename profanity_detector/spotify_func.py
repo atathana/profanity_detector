@@ -130,7 +130,7 @@ class SpotifyAPI(object):
         return r.json()
     
     #query : dic or string  %20 is space
-    def search(self,query=None, operator=None,operator_query=None ,search_type='track'):
+    def search(self,query="titanic", operator=None,operator_query=None ,search_type='track'):
         if query == None:
                raise Exception("A query is required")
                
@@ -214,9 +214,17 @@ class SpotifyAPI(object):
 
         return drop_deplicated_data
     
-    def playlist(self):
-        playlists_json=self.spotify.search(query="titanic",search_type="playlist")
+ #playlist_json_data
+    def playlist_search_json_createdata(self,query=None):
+        query="titanic" if query is None else query
         
+        playlists_json=self.search(query=query,search_type="playlist")
+        
+        
+        
+        
+
+        #Data
         need_playlist= []
         for i, item in enumerate(playlists_json["playlists"]["items"]):
             need_playlist.append((i,
@@ -226,7 +234,8 @@ class SpotifyAPI(object):
                           item["images"][0]["url"],
                          
          ))
-        return need_playlist
+            playlist_df = pd.DataFrame(need_playlist,index=None,columns=('item','Name','PlaylistURL','ID','ImageURL'))
+        return playlist_df
         
         
 
