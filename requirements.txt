@@ -43,9 +43,8 @@ streamlit_player
 
 #location_tagging
 geopy
-geograpy
+geograpy3==0.2.2
 nltk
 spacy
-
 folium
-
+streamlit-folium

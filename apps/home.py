@@ -5,11 +5,12 @@ from profanity_detector.giphy import get_giphy
 from profanity_detector.movie_features import create_word_cloud, plot_word_cloud
 from profanity_detector.get_data import movie_data
 from profanity_detector.movie_features import create_word_cloud, plot_word_cloud
-from profanity_detector.geo_data import enrich_locations
 import streamlit.components.v1 as components
 from profanity_detector.spotify_func import SpotifyAPI
 import json
 from os import path
+from profanity_detector.geo_data import geo_map_main
+from streamlit_folium import folium_static
 
 
 st.set_page_config(page_icon="film_frames",
@@ -150,6 +151,6 @@ def app():
                     st.text(country)
 
             st.subheader(" Filming Locations")
-            movie_locations = enrich_locations(locations_df)
-            st.map(movie_locations)
+            m = geo_map_main(locations_df)
+            folium_static(m)
             st.markdown('---')
