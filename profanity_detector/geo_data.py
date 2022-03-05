@@ -105,3 +105,44 @@ def enrich_locations(locations_df):
     locations_df['country'] = locations_df.apply(lambda x: get_country_from_coordinates(x['latitude'], x['longitude']), axis=1)
 
     return locations_df
+
+
+
+def remove_parantheses(text):
+    text = text.replace('(','')
+    text = text.replace(')','')
+    return text
+
+
+def plot_location_map(locations_df):
+    
+    #cleaning scene name strings
+    locations_df['movie_location'] = locations_df.apply(lambda x: remove_parantheses(x['movie_location']), axis =1)
+    
+    
+    #calculate optimal map start_location
+    max_country = locations_df.groupby(['country']).count()['locations'].idxmax()
+    
+    min_latitude = locations_df['latitude'][locations_df['country'] == max_country].quantile(0.10)
+    max_latitude = locations_df['latitude'][locations_df['country'] == max_country].quantile(0.90)
+    min_longitude = locations_df['longitude'][locations_df['country'] == max_country].quantile(0.10)
+    max_longitude = locations_df['longitude'][locations_df['country'] == max_country].quantile(0.90)
+    
+    start_location = locations_df[['latitude', 'longitude']][(locations_df['country'] == max_country) & (locations_df['latitude'].between(min_latitude,max_latitude)) & (locations_df['longitude'].between(min_longitude,max_longitude))].drop_duplicates().mean()
+    
+    #crate df of coordinates  and list of location names
+    
+    locations = locations_df[['latitude', 'longitude']]
+    locationlist = locations.values.tolist()
+    
+    #plotting map
+    map = folium.Map(location=start_location, zoom_start=9)
+    for point in range(0, len(locations_df['latitude'])):
+        folium.Marker(locationlist[point], popup=locations_df['movie_location'][point]).add_to(map)
+    
+    sw = [min_latitude,min_longitude]
+    ne = [max_latitude,max_longitude]
+    map.fit_bounds([sw, ne])
+    
+    
+    return map
