@@ -19,6 +19,12 @@ def index():
 @app.get("/display_movie_data")
 def display_movie_data(movie_name):
     meta, quotes, reviews, locations = movie_data(movie_name)
-    cover = meta["cover_url"]
-    return {"movie_details": meta
+    
+    results =  {"meta": meta,
+                "quotes":quotes,
+                "locations": locations
+            # "quotes": quotes,
+            # "reviews": reviews,
+            # "locations": locations
             }
+    return results
