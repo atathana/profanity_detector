@@ -5,6 +5,7 @@ import datetime
 from  urllib.parse import urlencode
 import base64
 import pandas as pd
+
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -14,6 +15,7 @@ if 'client_id' and 'client_secret'in os.environ:
 else:
     client_id = os.environ('client_id')
     client_secret = os.environ('client_secret')
+
 
 #class+search method
 #another search method type https://developer.spotify.com/documentation/web-api/reference/#/operations/search
@@ -146,6 +148,7 @@ class SpotifyAPI(object):
         print(query_params)
         return self.base_search(query_params)
     
+
         #playlist_json_data
     def playlist_search_json_createdata(self,query="tatanic"):
         playlists_json=self.search(query=query,search_type="playlist")
@@ -167,6 +170,7 @@ class SpotifyAPI(object):
     def spotify_get_organised_data(self,Name_of_Movie):
             #Data
         Data = self.search({"album": f"{Name_of_Movie}"}, search_type="track")
+
         
         #need contents 
         need = []
@@ -207,6 +211,7 @@ class SpotifyAPI(object):
         #chart df drop deplicate
         drop_deplicated_data=chart_df.drop_duplicates(subset=['Album Name'], keep="first").reset_index(drop=True)
         
+
         return drop_deplicated_data
     
  #playlist_json_data
@@ -233,3 +238,4 @@ class SpotifyAPI(object):
         return playlist_df
         
         
+
