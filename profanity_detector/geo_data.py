@@ -2,6 +2,7 @@ from profanity_detector.get_data import movie_data
 from geopy.geocoders import Nominatim
 import geograpy
 import pandas as pd
+import folium
 
 def get_movie_location(location):
     if '::' in location:
