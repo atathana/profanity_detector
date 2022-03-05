@@ -1,6 +1,6 @@
 import streamlit as st
 from tempfile import SpooledTemporaryFile
-from profanity_detector.spotify_func import SpotifyAPI
+from profanity_detector.spotify_func import SpotifyAPI,client_id,client_secret
 import pandas as pd
 import altair as alt
 import requests
@@ -21,13 +21,13 @@ from dotenv import load_dotenv
 #play music features??
 #connect to the devise
 
-load_dotenv()
-if 'client_id' and 'client_secret'in os.environ:
-    client_id = os.getenv('client_id')
-    client_secret = os.getenv('client_secret')
-else:
-    client_id = os.environ('client_id')
-    client_secret = os.environ('client_secret')
+# load_dotenv()
+# if 'client_id' and 'client_secret'in os.environ:
+#     client_id = os.getenv('client_id')
+#     client_secret = os.getenv('client_secret')
+# else:
+#     client_id = os.environ('client_id')
+#     client_secret = os.environ('client_secret')
 
 #Menu wide
 st.set_page_config(layout="wide")
@@ -133,7 +133,8 @@ elif len(drop_deplicated_data["albumID"]) > 1:
         uri1=drop_deplicated_data["albumID"][1]
         components.html(
             f"""
-            <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/5AQJpvFYJa2zGe0pScL2up?utm_source=generator" width="100%" height="380" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
+            <iframe src=https://open.spotify.com/embed/album/{uri1} width="200" height="500" frameborder="50" allowtransparency="true" 
+            allow="encrypted-media" ></iframe>
                 """,
                 height=400,
             )
@@ -174,7 +175,4 @@ elif len(drop_deplicated_data["albumID"]) == 0:
     
 else:
     None
-
-
-st.snow()
 

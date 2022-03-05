@@ -199,7 +199,7 @@ class SpotifyAPI(object):
         Full_Data = Track_df.merge(Feat_df, left_on="Id", right_on="id")
 
         #sort
-        Sort_DF = Full_Data.sort_values(by=['Popularity'], ascending=False).head(10)
+        Sort_DF = Full_Data.sort_values(by=['Popularity'], ascending=False).head(15)
 
         #chart df 
         chart_df = Sort_DF[['Artist', 'Album Name', 'Song Name', 'Release Date', 'Popularity',"energy","albumID"]]
