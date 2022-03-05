@@ -112,7 +112,7 @@ def enrich_locations(locations_df):
 def prepare_scence_name_data(text):
     text = text.replace('(','')
     text = text.replace(')','')
-    if text == '':
+    if text == '' or text == 'location':
         text = 'Multiple Scenes'
     
     return text
@@ -150,8 +150,8 @@ def plot_location_map(locations_df):
     for point in range(0, len(locations_df['latitude'])):
         folium.Marker(locationlist[point], popup=locations_df['movie_location'][point]).add_to(map)
     
-    sw = [min_latitude,min_longitude]
-    ne = [max_latitude,max_longitude]
+    sw = [min_latitude - 0.01 ,min_longitude - 0.01]
+    ne = [max_latitude + 0.01 ,max_longitude + 0.01]
     map.fit_bounds(bounds = [sw, ne])
     
     

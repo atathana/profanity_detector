@@ -78,16 +78,16 @@ if movie_name:
         plot_word_cloud(create_word_cloud(quotes_df,movie_meta['characters']))
         st.pyplot()
     
-    with col3:
-        st.header ("Gifs")
-        #get giphs
-        movies = get_giphy(movie_name)
-        print(movies)
+    # with col3:
+    #     st.header ("Gifs")
+    #     #get giphs
+    #     movies = get_giphy(movie_name)
+    #     print(movies)
         
-        for movie in movies:
-            st.markdown(
-                "<iframe src= {} width='240' height='180' frameBorder='0' class='giphy-embed' allowFullScreen></iframe>".format(movie),
-                 unsafe_allow_html=True)
+    #     for movie in movies:
+    #         st.markdown(
+    #             "<iframe src= {} width='240' height='180' frameBorder='0' class='giphy-embed' allowFullScreen></iframe>".format(movie),
+    #              unsafe_allow_html=True)
     
 
 
