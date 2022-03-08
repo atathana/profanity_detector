@@ -5,7 +5,7 @@ from profanity_detector.giphy import get_giphy
 from profanity_detector.movie_features import create_word_cloud, plot_word_cloud
 from profanity_detector.get_data import movie_data
 from profanity_detector.movie_features import create_word_cloud, plot_word_cloud
-from profanity_detector.geo_data import geo_map_main
+from profanity_detector.geo_data import geo_map_main, geo_map_countries
 from streamlit_folium import folium_static
 import folium
 
