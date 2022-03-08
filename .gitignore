@@ -1,12 +1,8 @@
 *.egg-info
 .coverage
-.ipynb_checkpoints
 .DS_Store
 raw_data/
 *.csv
 **/__pycache__/
 .env
 .python-version
-.ipynb
-Spotify-use-access-token.ipynb
-spotify-Song-Recommendation-System-1.ipynb
