@@ -117,28 +117,50 @@ def prepare_scence_name_data(text):
     
     return text
 
+def get_max_country(locations_df):
+    max_country = locations_df.groupby(['country']).count()['locations'].idxmax()
+    return max_country
 
-def plot_location_map(locations_df):
-    
+def plot_location_map(locations_df, country):
     #cleaning scene name strings
     locations_df['movie_location'] = locations_df.apply(lambda x: prepare_scence_name_data(x['movie_location']), axis =1)
     
     
     #calculate optimal map start_location
-    max_country = locations_df.groupby(['country']).count()['locations'].idxmax()
+    country = country
     
-    min_latitude_gate = locations_df['latitude'][locations_df['country'] == max_country].quantile(0.10)
-    max_latitude_gate = locations_df['latitude'][locations_df['country'] == max_country].quantile(0.90)
-    min_longitude_gate = locations_df['longitude'][locations_df['country'] == max_country].quantile(0.10)
-    max_longitude_gate = locations_df['longitude'][locations_df['country'] == max_country].quantile(0.90)
+    # min_latitude_gate = locations_df['latitude'][locations_df['country'] == country].quantile(0.10)
+    # max_latitude_gate = locations_df['latitude'][locations_df['country'] == country].quantile(0.90)
+    # min_longitude_gate = locations_df['longitude'][locations_df['country'] == country].quantile(0.10)
+    # max_longitude_gate = locations_df['longitude'][locations_df['country'] == country].quantile(0.90)
     
     
-    min_latitude = locations_df['latitude'][(locations_df['country'] == max_country) & (locations_df['latitude'] > min_latitude_gate)].min()
-    max_latitude = locations_df['latitude'][(locations_df['country'] == max_country) & (locations_df['latitude'] < max_latitude_gate)].max()
-    min_longitude = locations_df['longitude'][(locations_df['country'] == max_country) & (locations_df['longitude'] > min_longitude_gate)].min()
-    max_longitude = locations_df['longitude'][(locations_df['country'] == max_country) & (locations_df['longitude'] < max_longitude_gate)].max()
+    # min_latitude = locations_df['latitude'][(locations_df['country'] == country) & (locations_df['latitude'] > min_latitude_gate)].min()
+    # max_latitude = locations_df['latitude'][(locations_df['country'] == country) & (locations_df['latitude'] < max_latitude_gate)].max()
+    # min_longitude = locations_df['longitude'][(locations_df['country'] == country) & (locations_df['longitude'] > min_longitude_gate)].min()
+    # max_longitude = locations_df['longitude'][(locations_df['country'] == country) & (locations_df['longitude'] < max_longitude_gate)].max()
 
-    start_location = locations_df[['latitude', 'longitude']][(locations_df['country'] == max_country) & (locations_df['latitude'].between(min_latitude,max_latitude)) & (locations_df['longitude'].between(min_longitude,max_longitude))].drop_duplicates().mean()
+    locations_in_country = len(locations_df[['latitude', 'longitude']][locations_df['country'] == country])
+
+    if locations_in_country < 10:
+        min_latitude = locations_df['latitude'][locations_df['country'] == country].min()
+        max_latitude = locations_df['latitude'][locations_df['country'] == country].max()
+        min_longitude = locations_df['longitude'][locations_df['country'] == country].min()
+        max_longitude = locations_df['longitude'][locations_df['country'] == country].max()
+        
+    else:
+        min_latitude_gate = locations_df['latitude'][locations_df['country'] == country].quantile(0.10)
+        max_latitude_gate = locations_df['latitude'][locations_df['country'] == country].quantile(0.90)
+        min_longitude_gate = locations_df['longitude'][locations_df['country'] == country].quantile(0.10)
+        max_longitude_gate = locations_df['longitude'][locations_df['country'] == country].quantile(0.90)
+        
+        min_latitude = locations_df['latitude'][(locations_df['country'] == country) & (locations_df['latitude'] > min_latitude_gate)].min()
+        max_latitude = locations_df['latitude'][(locations_df['country'] == country) & (locations_df['latitude'] < max_latitude_gate)].max()
+        min_longitude = locations_df['longitude'][(locations_df['country'] == country) & (locations_df['longitude'] > min_longitude_gate)].min()
+        max_longitude = locations_df['longitude'][(locations_df['country'] == country) & (locations_df['longitude'] < max_longitude_gate)].max()
+
+
+    start_location = locations_df[['latitude', 'longitude']][(locations_df['country'] == country) & (locations_df['latitude'].between(min_latitude,max_latitude)) & (locations_df['longitude'].between(min_longitude,max_longitude))].drop_duplicates().mean()
 
     #crate df of coordinates  and list of location names
     
@@ -159,6 +181,18 @@ def plot_location_map(locations_df):
 
 def geo_map_main(locations_df):
     locations_df = enrich_locations(locations_df)
-    map = plot_location_map(locations_df)
+    country = get_max_country(locations_df)
+    map = plot_location_map(locations_df, country)
 
     return map
+
+
+def geo_map_countries(locations_df):
+    locations_df = enrich_locations(locations_df)
+    country_list = list(locations_df['country'].unique())
+    map_dict = {}
+    for country in country_list:
+        map_dict[country] = plot_location_map(locations_df, country)
+
+    return map_dict
+

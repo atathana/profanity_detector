@@ -1,18 +1,18 @@
 import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
-from profanity_detector.spotify_func import SpotifyAPI
+from profanity_detector.spotify_func import SpotifyAPI,client_id,client_secret
 import streamlit.components.v1 as components
 import os
 
-from dotenv import load_dotenv
-load_dotenv()
-if 'client_id' and 'client_secret' in os.environ:
-    client_id = os.getenv('client_id')
-    client_secret = os.getenv('client_secret')
-else:
-    client_id = os.environ('client_id')
-    client_secret = os.environ('client_secret')
+# from dotenv import load_dotenv
+# load_dotenv()
+# if 'client_id' and 'client_secret'in os.environ:
+#     client_id = os.getenv('client_id')
+#     client_secret = os.getenv('client_secret')
+# else:
+#     client_id = os.environ('client_id')
+#     client_secret = os.environ('client_secret')
 
 
 # client_id = 'de83171c026d4ca0b749e33b50496a60'
@@ -32,7 +32,7 @@ movie_name = st.text_input("What Is Your Favourite Movie? : ", '')
 if movie_name:
 
     #"""please copy and paste in app.py """
-    playlist_df=SpotifyAPI(client_id,client_secret).playlist_search_json_createdata(query="titanic")
+    playlist_df=SpotifyAPI(client_id,client_secret).playlist_search_json_createdata(query=movie_name)
     top_playlist_id=playlist_df["ID"][0]
 
     st.title("Playlist Search Result")

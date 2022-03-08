@@ -130,7 +130,7 @@ class SpotifyAPI(object):
         return r.json()
 
     #query : dic or string  %20 is space
-    def search(self,query="titanic", operator=None,operator_query=None ,search_type='track'):
+    def search(self,query=None, operator=None,operator_query=None ,search_type='track'):
         if query == None:
                raise Exception("A query is required")
 
@@ -147,7 +147,6 @@ class SpotifyAPI(object):
         query_params = urlencode({"q": query, "type": search_type.lower()})
         print(query_params)
         return self.base_search(query_params)
-
 
         #playlist_json_data
     def playlist_search_json_createdata(self,query="tatanic"):
@@ -202,27 +201,19 @@ class SpotifyAPI(object):
         Full_Data = Track_df.merge(Feat_df, left_on="Id", right_on="id")
 
         #sort
-        Sort_DF = Full_Data.sort_values(by=['Popularity'], ascending=False).head(10)
+        Sort_DF = Full_Data.sort_values(by=['Popularity'], ascending=False).head(15)
 
         #chart df
         chart_df = Sort_DF[['Artist', 'Album Name', 'Song Name', 'Release Date', 'Popularity',"energy","albumID"]]
         Name_of_Feat="energy"
 
-        #chart df drop deplicate
-        drop_deplicated_data=chart_df.drop_duplicates(subset=['Album Name'], keep="first").reset_index(drop=True)
-
-
-        return drop_deplicated_data
+        return chart_df
 
  #playlist_json_data
     def playlist_search_json_createdata(self,query=None):
         query="titanic" if query is None else query
 
         playlists_json=self.search(query=query,search_type="playlist")
-
-
-
-
 
         #Data
         need_playlist= []
