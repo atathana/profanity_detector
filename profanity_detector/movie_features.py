@@ -9,36 +9,36 @@ takes a df in which the 2nd column is the text(quotes_df or reviews_df) and retu
 """
 
 def create_word_cloud(df, exclude_words=[]):
-	#createing text object from text column in df 
-	text_df = df['content']
-	text_series = text_df.squeeze()
-	text = " ".join(text_series)
+    #createing text object from text column in df
+    text_df = df['content']
+    text_series = text_df.squeeze()
+    text = " ".join(text_series)
 
 
-	#removing suprficial words
-	remove_words = df['title'][0].split()
-	remove_words.append('movie')
-	remove_words.append('film')
-	remove_words.append('qv')
-	remove_words.append('_')
-	remove_words.append('narator')
+    #removing suprficial words
+    remove_words = df['title'][0].split()
+    remove_words.append('movie')
+    remove_words.append('film')
+    remove_words.append('qv')
+    remove_words.append('_')
+    remove_words.append('narator')
 
-	for w in exclude_words:
-		remove_words.append(w)
+    for w in exclude_words:
+        remove_words.append(w)
 
-	for word in remove_words:
-		text = text.replace(word,"")
+    for word in remove_words:
+        text = text.replace(word,"")
 
-	word_cloud = WordCloud(collocations = False, background_color = 'black').generate(text)
+    word_cloud = WordCloud(collocations = False, background_color = 'black').generate(text)
 
 
-	return word_cloud
+    return word_cloud
 
 """
 plots a wordcloud object
 """
 def plot_word_cloud(word_cloud):
-
-	plt.imshow(word_cloud, interpolation='bilinear')
-	plt.axis("off")
-	plt.show()
+    plt.imshow(word_cloud, interpolation='bilinear')
+    plt.axis("off")
+    plt.tight_layout(pad = 0)
+    plt.show()

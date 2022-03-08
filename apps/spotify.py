@@ -4,10 +4,22 @@ from tempfile import SpooledTemporaryFile
 from profanity_detector.spotify_func import SpotifyAPI
 import pandas as pd
 import altair as alt
-
+import os
+from dotenv import load_dotenv
 import json
 from os import path
-#from apps.home import input
+
+
+load_dotenv()
+if 'client_id' and 'client_secret' in os.environ:
+
+    client_id = os.getenv('client_id ')
+    client_secret = os.getenv('client_secret')
+
+else:
+    client_id = os.environ['client_id ']
+    client_secret = os.environ['client_secret']
+
 
 def app():
     st.title('SPOTIFY')
