@@ -7,4 +7,5 @@ raw_data/
 .env
 .python-version
 .ipynb
+.cache
 .ipynb_checkpoints
