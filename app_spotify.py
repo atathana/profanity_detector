@@ -139,9 +139,12 @@ elif len(drop_deplicated_data["albumID"]) > 1:
 
             <iframe src=https://open.spotify.com/embed/album/{uri1} width="200" height="500" frameborder="50" allowtransparency="true" 
             allow="encrypted-media" ></iframe>
+            
+            """,
 
                 height=400,
             )
+            
     with col1:
         components.html(
             f"""
@@ -168,7 +171,7 @@ elif len(drop_deplicated_data["albumID"]) > 1:
             )    
             components.html(
             f"""
-            <div style="text-align: right;">
+            <div style="text-align:right;">
             <img src="https://img.icons8.com/external-tulpahn-flat-tulpahn/64/000000/external-audio-mobile-user-interface-tulpahn-flat-tulpahn.png"/>
             </div>
                 """,
