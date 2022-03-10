@@ -5,11 +5,10 @@ import datetime
 from  urllib.parse import urlencode
 import base64
 import pandas as pd
-
 from dotenv import load_dotenv
 
 load_dotenv()
-if 'client_id' and 'client_secret'in os.environ:
+if 'client_id' or 'client_secret'in os.environ:
     client_id = os.getenv('client_id')
     client_secret = os.getenv('client_secret')
 else:
@@ -167,7 +166,7 @@ class SpotifyAPI(object):
 
 
     def spotify_get_organised_data(self,Name_of_Movie):
-            #Data
+        #Data
         Data = self.search({"album": f"{Name_of_Movie}"}, search_type="track")
 
 

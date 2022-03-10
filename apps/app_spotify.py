@@ -1,7 +1,5 @@
 import streamlit as st
-from tempfile import SpooledTemporaryFile
 from profanity_detector.spotify_func import SpotifyAPI,client_id,client_secret
-import pandas as pd
 import altair as alt
 import requests
 import base64
@@ -9,19 +7,7 @@ import os
 import streamlit.components.v1 as components
 from IPython.core.display import display, HTML
 from streamlit_player import st_player
-
 from dotenv import load_dotenv
-
-
-#To do
-#get os.environ.get
-#git conflicts :push all?
-#combine into app.py to the latest one
-#need from dotenv import load_dotenv?
-# make classs and make it compact ,import python file as class
-#play music features??
-#connect to the devise
-
 
 # load_dotenv()
 # if 'client_id' and 'client_secret'in os.environ:

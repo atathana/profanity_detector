@@ -11,7 +11,5 @@ app.add_app("Sentiment", sentiment.app)
 app.add_app("Spotify", spotify.app)
 app.add_app("Locations", locations.app)
 
-
 # The main app
-
 app.run()

@@ -9,14 +9,23 @@ import streamlit.components.v1 as components
 from profanity_detector.spotify_func import SpotifyAPI
 import json
 from os import path
-from profanity_detector.geo_data import  enrich_locations,plot_location_map
+from profanity_detector.geo_data import get_max_country, enrich_locations, plot_location_map
 from streamlit_folium import folium_static
+import os
+from dotenv import load_dotenv
 
 
 
 st.set_page_config(page_icon="film_frames",
                    layout="wide",
                    initial_sidebar_state="expanded")
+
+
+# Loading API_keys
+load_dotenv()
+client_id = os.getenv('client_id')
+client_secret = os.getenv('client_secret')
+
 
 @st.cache
 def load_data(movie_name):
@@ -155,6 +164,7 @@ def app():
 
             st.subheader(" Filming Locations")
             location_df_new= geo_data(locations_df)
-            map = plot_location_map(location_df_new)
+            country = get_max_country(location_df_new)
+            map = plot_location_map(location_df_new, country)
             folium_static(map)
             st.markdown('---')
