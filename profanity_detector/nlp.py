@@ -1,4 +1,4 @@
-from get_data import movie_data
+from profanity_detector.get_data import movie_data
 from hatesonar import Sonar
 import pandas as pd
 import warnings
