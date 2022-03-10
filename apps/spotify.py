@@ -11,8 +11,15 @@ import os
 
 
 load_dotenv()
-client_id = os.getenv('client_id')
-client_secret = os.getenv('client_secret')
+if 'client_id' in os.environ:
+    client_id = os.getenv('client_id')
+else:
+    client_id = os.environ['client_id']
+
+if 'client_secret' in os.environ:
+    client_secret = os.getenv('client_secret')
+else:
+    client_secret = os.environ['client_secret']
 
 #instanciate class
 spotify = SpotifyAPI(client_id, client_secret)
