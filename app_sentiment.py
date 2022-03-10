@@ -3,9 +3,10 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from profanity_detector.giphy import get_giphy
 from profanity_detector.movie_features import create_word_cloud, plot_word_cloud
-from profanity_detector.get_data import movie_data
+#from profanity_detector.get_data import movie_data
 from profanity_detector.movie_features import create_word_cloud, plot_word_cloud
 from profanity_detector.nlp import vader_percent_analysis,most_hateful,most_offensive,hate_speech_classifier,vader_sentiment_analysis
+import requests
 
 st.set_page_config(page_title="I m BD Sentiment",
                    page_icon="film_frames",
@@ -16,8 +17,14 @@ movie_name = st.text_input("What Is Your Favourite Movie? : ", '')
 if movie_name:
 
     col1, col2 = st.columns(2)
-
-    movie_meta, quotes_df, reviews_df, locations_df = movie_data(movie_name)
+    url = 'https://moviedata-7uhpc5vsza-ew.a.run.app/display_movie_data'
+    params = {"movie_name":movie_name}
+    response = requests.get(url,params=params).json()
+    movie_meta = response["meta"]
+    quotes_df = pd.DataFrame(response["quotes"])
+    reviews_df = pd.read_json(response["reviews"])
+    locations_df = response["locations"]
+    #movie_meta, quotes_df, reviews_df, locations_df = movie_data(movie_name)
     hate_quote = most_hateful(hate_speech_classifier(quotes_df))
     offensive_quote = most_offensive(hate_speech_classifier(quotes_df))
     hate_review = most_hateful(hate_speech_classifier(reviews_df))

@@ -8,6 +8,7 @@ from profanity_detector.movie_features import create_word_cloud, plot_word_cloud
 from profanity_detector.geo_data import geo_map_main, geo_map_countries
 from streamlit_folium import folium_static
 import folium
+import requests
 
 
 st.set_page_config(page_title="I m BD",
@@ -28,7 +29,11 @@ if movie_name:
     col1, col2, col3 = st.columns(3)
 
     #get data
-    movie_meta, quotes_df, reviews_df, locations_df = movie_data(movie_name)
+    url = 'https://moviedata-7uhpc5vsza-ew.a.run.app/display_movie_data'
+    params = {"movie_name":movie_name}
+    response = requests.get(url,params=params).json()
+    movie_meta = response["meta"]
+    #movie_meta, quotes_df, reviews_df, locations_df = movie_data(movie_name)
 
     #show_meta_data
     with col1:
@@ -73,10 +78,6 @@ if movie_name:
         st.image(movie_meta['cover_url'], 
                  use_column_width='auto',
                  caption=movie_meta['title'])
-
-        st.header ("QuoteCloud")
-        plot_word_cloud(create_word_cloud(quotes_df,movie_meta['characters']))
-        st.pyplot()
     
     with col3:
         st.header ("Gifs")
