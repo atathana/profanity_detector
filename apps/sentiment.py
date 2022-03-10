@@ -1,6 +1,5 @@
 import json
 from os import path
-from turtle import color
 import streamlit as st
 import matplotlib.pyplot as plt
 from profanity_detector.movie_features import create_word_cloud, plot_word_cloud
