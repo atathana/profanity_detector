@@ -23,8 +23,8 @@ st.set_page_config(page_icon="film_frames",
 
 # Loading API_keys
 load_dotenv()
-client_id = os.getenv('client_id')
-client_secret = os.getenv('client_secret')
+client_id = os.environ('client_id')
+client_secret = os.environ('client_secret')
 
 
 @st.cache
