@@ -3,4 +3,3 @@
 import os
 os.system('geograpy-nltk')
 
-mv model.joblib /app/.heroku/python/lib/python3.6/site-packages/hatesonar/./data/model.joblib
