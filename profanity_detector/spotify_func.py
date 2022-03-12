@@ -5,6 +5,8 @@ import datetime
 from  urllib.parse import urlencode
 import base64
 import pandas as pd
+import spotipy
+from spotipy.oauth2 import SpotifyClientCredentials
 
 from dotenv import load_dotenv
 
@@ -19,7 +21,6 @@ else:
 
 #class+search method
 #another search method type https://developer.spotify.com/documentation/web-api/reference/#/operations/search
-
 
 class SpotifyAPI(object):
     access_token=None
@@ -210,20 +211,48 @@ class SpotifyAPI(object):
         return chart_df
     
  #playlist_json_data
-    def playlist_search_json_createdata(self,query=None):
-        query="titanic" if query is None else query
+    def get_track_from_playlist(playlist_URI):
+        client_credentials_manager = SpotifyClientCredentials(client_id=client_id, client_secret=client_secret)
+        sp = spotipy.Spotify(client_credentials_manager = client_credentials_manager)
+        track_uri_lis= []
         
-        playlists_json=self.search(query=query,search_type="playlist")
+        for track in sp.playlist_tracks(playlist_URI)["items"]:
+            #URI
+            track_uri = track["track"]["uri"]
+            
+            #id
+            track_id = track["track"]["id"]
+            
+            #Track name
+            track_name = track["track"]["name"]
+            popularity=track["track"]["popularity"]
+            
+            #Main Artist
+            artist_uri = track["track"]["artists"][0]["uri"]
+            artist_info = sp.artist(artist_uri)
+            
+            #Name, popularity, genre
+            artist_name = track["track"]["artists"][0]["name"]
+            artist_pop = artist_info["popularity"]
+            artist_genres = artist_info["genres"]
+            
+            #Album
+            album = track["track"]["album"]["name"]
+            
+            #Popularity of the track
+            track_pop = track["track"]["popularity"]
+            #energy
+            energy=sp.audio_features(track_uri)[0]["energy"]
+            
+            all_lis=[album,track_name,popularity,energy,track_uri,track_id]
+            track_uri_lis.append((all_lis))
+            track_uri_lis
+
+        playlist_df = pd.DataFrame(track_uri_lis,index=None,columns=('album','track_name',"popularity","energy",'track_uri',"id"))
+        Track_df=playlist_df
+        Sort_DF =Track_df.sort_values(by=['popularity'], ascending=False)
+        Sort_DF
         
-        #Data
-        need_playlist= []
-        for i, item in enumerate(playlists_json["playlists"]["items"]):
-            need_playlist.append((i,
-                          item["name"], 
-                          item["external_urls"]["spotify"],
-                          item["id"],
-                          item["images"][0]["url"],
-                         
-         ))
-            playlist_df = pd.DataFrame(need_playlist,index=None,columns=('item','Name','PlaylistURL','ID','ImageURL'))
-        return playlist_df
+        return  Sort_DF
+            
+        

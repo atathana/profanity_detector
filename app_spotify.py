@@ -58,7 +58,8 @@ drop_deplicated_data=chart_df.drop_duplicates(subset=['Album Name'], keep="first
 if Name_of_Movie:
     playlist_df=spotify.playlist_search_json_createdata(query=Name_of_Movie)
     top_playlist_id=playlist_df["ID"][0]
-    st.title("Playlist Search Result")
+    
+    st.title("No.1 Playlist Search Result")
     components.html(
 
             f"""
@@ -69,13 +70,14 @@ if Name_of_Movie:
             ) 
     #playlist table
     with st.expander("See Playlist List"):
-        st.table(playlist_df[["Name","PlaylistURL"]].head(30))
+        st.table(playlist_df[["Name","PlaylistURL"]])
+        
     
 else:
     playlist_df=spotify.playlist_search_json_createdata(query="titanic")
     top_playlist_id=playlist_df["ID"][0]
     
-    st.title("Playlist Search Result")
+    st.title("No.1 Playlist Search Result")
     components.html(
             f"""
             <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/{top_playlist_id}?utm_source=generator" width="100%" height="380" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
@@ -83,103 +85,26 @@ else:
                 height=400
             ) 
     #playlist table
-    with st.expander("See more Playlist"):
-        st.table(playlist_df[["Name","PlaylistURL"]].head(10))
+    with st.expander("See Playlist List"):
+        st.table(playlist_df[["Name","PlaylistURL"]])
 
-
-#show data table
-st.header(f"{Name_of_Movie}  Song Search Result")
+# #show data table
+st.header(f"{Name_of_Movie}  TOP 1 Playlist Track ")
 
 #song chart
 st.header(f"Song Popularity+Energy Chart")
 Name_of_Feat="energy"
-c = alt.Chart(chart_df).mark_circle().encode(
-    alt.X('Popularity', scale=alt.Scale(zero=False)), y=f'{Name_of_Feat}', color=alt.Color('Popularity', scale=alt.Scale(type='log',scheme='rainbow')), 
-    size=alt.value(300), tooltip=['Popularity', f'{Name_of_Feat}', 'Song Name', 'Album Name']).interactive()
+playlist_URI=playlist_df["PlaylistURL"][0]
+track_df=SpotifyAPI.get_track_from_playlist(playlist_URI)
+chart_df=track_df[["album","track_name","popularity","energy"]]
+
+c = alt.Chart(chart_df[["album","track_name","popularity","energy"]]).mark_circle().encode(
+    alt.X('popularity', scale=alt.Scale(zero=False)), y=f'{Name_of_Feat}', color=alt.Color('popularity', scale=alt.Scale(type='log',scheme='rainbow')), 
+    size=alt.value(300), tooltip=['track_name','popularity', f'{Name_of_Feat}',"energy"]).interactive()
 st.altair_chart(c, use_container_width=True)
 
 
 #song table
-with st.expander("See more Song List"):
-    st.table(chart_df.head(10))
-
-#Album player show
-col1, col2,col3,col4= st.columns(4)
-if len(drop_deplicated_data["albumID"]) == 1:
-    with col3:
-        uri=drop_deplicated_data["albumID"][0]
-        components.html(
-            f"""
-            <iframe src=https://open.spotify.com/embed/album/{uri} width="200" height="400" frameborder="50" allowtransparency="true" 
-            allow="encrypted-media" ></iframe>
-                """,
-                height=400
-            ) 
-    with col2:
-        components.html(
-            f"""
-           <img  src="https://img.icons8.com/external-xnimrodx-lineal-gradient-xnimrodx/64/000000/external-audio-online-learning-xnimrodx-lineal-gradient-xnimrodx.png"/>
-                """,
-                height=300
-            ) 
-elif len(drop_deplicated_data["albumID"]) > 1:
-    with col2:
-        uri=drop_deplicated_data["albumID"][0]
-        components.html(
-            f"""
-            <iframe src=https://open.spotify.com/embed/album/{uri} width="200" height="500" frameborder="50" allowtransparency="true" 
-            allow="encrypted-media" ></iframe>
-                """,
-                height=400
-            )    
-    with col3:
-        uri1=drop_deplicated_data["albumID"][1]
-        components.html(
-            f"""
-
-            <iframe src=https://open.spotify.com/embed/album/{uri1} width="200" height="500" frameborder="50" allowtransparency="true" 
-            allow="encrypted-media" ></iframe>
-            
-            """,
-
-                height=400,
-            )
-            
-    with col1:
-        components.html(
-            f"""
-            <div style="text-align: center;">
-            <img src="https://img.icons8.com/external-xnimrodx-lineal-gradient-xnimrodx/64/000000/external-audio-online-learning-xnimrodx-lineal-gradient-xnimrodx.png"/>
-            </div>
-                """,
-                height=100
-            ) 
-        components.html(
-            f"""
-            <img src="https://img.icons8.com/external-tulpahn-flat-tulpahn/64/000000/external-audio-mobile-user-interface-tulpahn-flat-tulpahn.png"/>
-                """,
-                height=100
-            ) 
-        with col4:
-            components.html(
-            f"""
-            <div style="margin-left:30px;">
-            <img src="https://img.icons8.com/external-flaticons-lineal-color-flat-icons/64/000000/external-audio-edm-flaticons-lineal-color-flat-icons-2.png"/>
-            </div>
-                """,
-                height=100
-            )    
-            components.html(
-            f"""
-            <div style="text-align:right;">
-            <img src="https://img.icons8.com/external-tulpahn-flat-tulpahn/64/000000/external-audio-mobile-user-interface-tulpahn-flat-tulpahn.png"/>
-            </div>
-                """,
-                height=100
-            ) 
-elif len(drop_deplicated_data["albumID"]) == 0:
-    None
-    
-else:
-    None
+with st.expander("See more Track List"):
+    st.table(chart_df)
 
