@@ -6,7 +6,8 @@ from profanity_detector.movie_features import create_word_cloud, plot_word_cloud
 from profanity_detector.get_data import movie_data
 from profanity_detector.movie_features import create_word_cloud, plot_word_cloud
 from profanity_detector.nlp import vader_percent_analysis, most_hateful, most_offensive, hate_speech_classifier, vader_sentiment_analysis
-
+import requests
+import pandas as pd
 
 @st.cache
 def load_data(movie_name):
@@ -27,14 +28,16 @@ def app():
             col1, col2, col3 = st.columns(3)
 
             movie_meta, quotes_df, reviews_df, locations_df = load_data(movie_name)
-
-            hate_quote = most_hateful(hate_speech_classifier(quotes_df))
-            offensive_quote = most_offensive(hate_speech_classifier(quotes_df))
-            hate_review = most_hateful(hate_speech_classifier(reviews_df))
-            offensive_review = most_offensive(hate_speech_classifier(reviews_df))
-            vader_analysis_reviews = vader_percent_analysis(vader_sentiment_analysis(reviews_df))
-            vader_analysis_quotes = vader_percent_analysis(vader_sentiment_analysis(quotes_df))
-            categ_quotes = hate_speech_classifier(quotes_df)
+            url = 'https://movie-sentiment-7uhpc5vsza-ez.a.run.app/display_sentiment'
+            params = {"movie_name":movie_name}
+            response = requests.get(url,params=params).json()
+            hate_quote = response["most_hateful_quote"]
+            offensive_quote = response["most_offensive_quote"]
+            hate_review = response["hate_review"]
+            offensive_review = response["offensive_review"]
+            vader_analysis_reviews = response["sentiment_reviews"]
+            vader_analysis_quotes = response["sentiment_quotes"]
+            categ_quotes = pd.DataFrame(response["categ_quotes"])
             data = [categ_quotes.Class.value_counts()[-1], categ_quotes.Class.value_counts()[1], categ_quotes.Class.value_counts()[0]]
 
             with col1:
