@@ -61,11 +61,7 @@ def app():
                 plt.figure(facecolor='black')
                 ax1.pie(data,
                         explode=explode,
-                        colors=[
-                            '#ff9999',
-                            '#66b3ff',
-                            '#99ff99',
-                        ],
+                        colors=['#e55039', '#3c6382', '#78e08f'],
                         labels=labels,
                         autopct='%1.1f%%',
                         shadow=True,
@@ -87,23 +83,34 @@ def app():
         st.header(":memo: Reviews Analysis")
 
 
-        # col4 = st.columns(1)  #, col5, col6
-        # with col4:
-        #     st.header("Reviews")
-        #     #st.subheader ("ReviewCloud")
-        #     #plot_word_cloud(create_word_cloud(reviews_df,movie_meta['characters']))
-        #     #st.pyplot()
-        #     st.subheader('Most Hateful Review')
-        #     st.markdown(hate_review)
-        #     st.subheader('Most Offensive Review')
-        #     st.markdown(offensive_review)
-        #     #labels2 = ['Hate Speech', 'Offensive', 'Neither']
-        #     # st.header("Sentiment Reviews")
-        #     # explode = (0, 0.1,0.1)
-        #     # fig2, ax2 = plt.subplots(nrows=1,ncols=1)
-        #     # ax2.pie(data_reviews, explode=explode, labels=labels2, autopct='%1.1f%%',
-        #     # shadow=True, startangle=90)
-        #     # ax2.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
-        #     # st.pyplot(fig2)
+        col4, col5 = st.columns([2,1])
+        with col4:
+
+            st.subheader('Most Hateful Review')
+            st.markdown(f"_{hate_review}_")
+
+            st.subheader('Most Offensive Review')
+            st.markdown(f"_{offensive_review}_")  # italic
+
+        with col5:
+            st.subheader("Positive vs Negative Reviews")
+            labels_2 = ['Positive', 'Negative']
+            data_2 = [vader_analysis_reviews[0], vader_analysis_reviews[1]]
+            explode = (0, 0.1)
+            fig2, ax2 = plt.subplots(nrows=1,ncols=1)
+            plt.figure(facecolor='black')
+            ax2.pie(data_2,
+                    explode=explode,
+                    colors=['#78e08f', '#e55039'],
+                    labels=labels_2,
+                    autopct='%1.1f%%',
+                    shadow=True,
+                    startangle=90)
+            ax2.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
+            st.pyplot(fig2)
+
+            st.subheader ("ReviewCloud")
+            plot_word_cloud(create_word_cloud(reviews_df,movie_meta['characters']))
+            st.pyplot()
 
         st.markdown('---')
