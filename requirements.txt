@@ -50,3 +50,5 @@ nltk
 spacy
 folium
 streamlit-folium
+
+spotipy==2.19.0
