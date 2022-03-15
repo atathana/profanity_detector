@@ -109,69 +109,69 @@ def app():
 
         #-------------GIPHYS--------------------------
 
-        # col4, col5, col6, col7, col8 = st.columns(5)
+        col4, col5, col6, col7, col8 = st.columns(5)
 
-        # movies = get_giphy(movie_name)
-        # with col4 :
-        #     st.markdown(
-        #             "<iframe src= {} width='240' height='180' frameBorder='0' class='giphy-embed' allowFullScreen></iframe>"
-        #             .format(movies[0]),
-        #             unsafe_allow_html=True)
+        movies = get_giphy(movie_name)
+        with col4 :
+            st.markdown(
+                    "<iframe src= {} width='240' height='180' frameBorder='0' class='giphy-embed' allowFullScreen></iframe>"
+                    .format(movies[0]),
+                    unsafe_allow_html=True)
 
-        # with col5 :
-        #     st.markdown(
-        #             "<iframe src= {} width='240' height='180' frameBorder='0' class='giphy-embed' allowFullScreen></iframe>"
-        #             .format(movies[1]),
-        #             unsafe_allow_html=True)
-        # with col6 :
-        #     st.markdown(
-        #             "<iframe src= {} width='240' height='180' frameBorder='0' class='giphy-embed' allowFullScreen></iframe>"
-        #             .format(movies[2]),
-        #             unsafe_allow_html=True)
+        with col5 :
+            st.markdown(
+                    "<iframe src= {} width='240' height='180' frameBorder='0' class='giphy-embed' allowFullScreen></iframe>"
+                    .format(movies[1]),
+                    unsafe_allow_html=True)
+        with col6 :
+            st.markdown(
+                    "<iframe src= {} width='240' height='180' frameBorder='0' class='giphy-embed' allowFullScreen></iframe>"
+                    .format(movies[2]),
+                    unsafe_allow_html=True)
 
-        # with col7 :
-        #     st.markdown(
-        #             "<iframe src= {} width='240' height='180' frameBorder='0' class='giphy-embed' allowFullScreen></iframe>"
-        #             .format(movies[3]),
-        #             unsafe_allow_html=True)
+        with col7 :
+            st.markdown(
+                    "<iframe src= {} width='240' height='180' frameBorder='0' class='giphy-embed' allowFullScreen></iframe>"
+                    .format(movies[3]),
+                    unsafe_allow_html=True)
 
-        # with col8 :
-        #     st.markdown(
-        #             "<iframe src= {} width='240' height='180' frameBorder='0' class='giphy-embed' allowFullScreen></iframe>"
-        #             .format(movies[4]),
-        #             unsafe_allow_html=True)
-
-
-        # st.markdown('---')
-
-        # col_left, col_right = st.columns([1,1])
-
-        # # # -------------- MUSIC ---------------
+        with col8 :
+            st.markdown(
+                    "<iframe src= {} width='240' height='180' frameBorder='0' class='giphy-embed' allowFullScreen></iframe>"
+                    .format(movies[4]),
+                    unsafe_allow_html=True)
 
 
-        # with col_left:
-        #     st.header(" :notes: Music ")
-        #     st.subheader(" Spotify List")
-        #     playlist_df = SpotifyAPI(client_id, client_secret).playlist_search_json_createdata(
-        #             query=movie_name)
-        #     top_playlist_id=playlist_df["ID"][0]
-        #     components.html(f"""
-        #                     <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/{top_playlist_id}?utm_source=generator" width="100%" height="380" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
-        #         """,
-        #         height=400
-        #                     )
+        st.markdown('---')
 
-        # # ----------------MOVIE LOCATIONS---------------
-        # with col_right:
-        #     st.header(" :round_pushpin: Locations ")
-        #     st.subheader("Countries")
-        #     with st.expander("See Countries"):
-        #         for country in movie_meta['countries']:
-        #             st.text(country)
+        col_left, col_right = st.columns([1,1])
 
-        #     st.subheader(" Filming Locations")
-        #     location_df_new= geo_data(locations_df)
-        #     country = get_max_country(location_df_new)
-        #     map = plot_location_map(location_df_new, country)
-        #     folium_static(map)
-        #     st.markdown('---')
+        # # -------------- MUSIC ---------------
+
+
+        with col_left:
+            st.header(" :notes: Music ")
+            st.subheader(" Spotify List")
+            playlist_df = SpotifyAPI(client_id, client_secret).playlist_search_json_createdata(
+                    query=movie_name)
+            top_playlist_id=playlist_df["ID"][0]
+            components.html(f"""
+                            <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/{top_playlist_id}?utm_source=generator" width="100%" height="380" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
+                """,
+                height=400
+                            )
+
+        # ----------------MOVIE LOCATIONS---------------
+        with col_right:
+            st.header(" :round_pushpin: Locations ")
+            st.subheader("Countries")
+            with st.expander("See Countries"):
+                for country in movie_meta['countries']:
+                    st.text(country)
+
+            st.subheader(" Filming Locations")
+            location_df_new= geo_data(locations_df)
+            country = get_max_country(location_df_new)
+            map = plot_location_map(location_df_new, country)
+            folium_static(map)
+            st.markdown('---')
