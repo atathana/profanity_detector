@@ -31,8 +31,6 @@ def app():
         movie_name = json.load(open('movie.json', 'r'))['movie']
 
     if movie_name:
-        #get organised data
-        chart_df = spotify.spotify_get_organised_data(movie_name)
 
         #chart df drop deplicate
         # drop_deplicated_data = chart_df.drop_duplicates(subset=['Album Name'], keep="first").reset_index(drop=True)
@@ -53,108 +51,42 @@ def app():
                     height=400
                 )
             #playlist table
-            # with st.expander("15 Alternative Playlists"):
-            #     st.table(playlist_df[["Name","PlaylistURL"]].head(15))
+            with st.expander("15 Alternative Playlists"):
+                st.table(playlist_df[["Name"]].head(15))
 
-        # with col_right:
-        #     #song chart
-        #     st.subheader(f"Energy vs Popularity")
-        #     st.text(
-        #         """
-        #         Energy is a measure from 0.0 to 1.0 and represents a perceptual measure of intensity and activity.
-        #         Typically, energetic tracks feel fast, loud, and noisy.
-        #         Perceptual features contributing to this attribute include dynamic range, perceived loudness,
-        #         timbre, onset rate, and general entropy.
-        #         """
-        #     )
-        #     Name_of_Feat="energy"
-        #     c = alt.Chart(chart_df).mark_circle().encode(
-        #         alt.X('Popularity', scale=alt.Scale(zero=False)), y=f'{Name_of_Feat}', color=alt.Color('Popularity', scale=alt.Scale(type='log',scheme='rainbow')),
-        #         size=alt.value(300), tooltip=['Popularity', f'{Name_of_Feat}', 'Song Name', 'Album Name']).interactive()
+        with col_right:
+            #song chart
+            st.subheader(f"Energy vs Popularity")
+            st.text(
+                """
+                Energy is a measure from 0.0 to 1.0 and represents a perceptual measure of intensity and activity.
+                Typically, energetic tracks feel fast, loud, and noisy.
+                Perceptual features contributing to this attribute include dynamic range, perceived loudness,
+                timbre, onset rate, and general entropy.
+                """
+            )
 
-        #     st.altair_chart(c, use_container_width=True)
+            Name_of_Feat = "energy"
+            playlist_link = playlist_df["PlaylistURL"][0]
+            track_df = spotify.get_track_from_playlist(playlist_link)
 
+            chart_df = track_df[["album", "track_name", "popularity", "energy"]]
 
-    # #song table
-    # with st.expander("See more Song List"):
-    #     st.table(chart_df.head(10))
+            c = alt.Chart(chart_df[["album", "track_name", "popularity",
+                                    "energy"]]).mark_circle().encode(
+                                        alt.X('popularity', scale=alt.Scale(zero=False)),
+                                        y=f'{Name_of_Feat}',
+                                        color=alt.Color('popularity',
+                                                        scale=alt.Scale(type='log',
+                                                                        scheme='rainbow')),
+                                        size=alt.value(600),
+                                        tooltip=[
+                                            'track_name', 'popularity', f'{Name_of_Feat}',
+                                            "energy"
+                                        ]).interactive()
 
-    # #Album player show
-    # col1, col2,col3,col4= st.columns(4)
-    # if len(drop_deplicated_data["albumID"]) == 1:
-    #     with col3:
-    #         uri=drop_deplicated_data["albumID"][0]
-    #         components.html(
-    #             f"""
-    #             <iframe src=https://open.spotify.com/embed/album/{uri} width="200" height="400" frameborder="50" allowtransparency="true"
-    #             allow="encrypted-media" ></iframe>
-    #                 """,
-    #                 height=400
-    #             )
-    #     with col2:
-    #         components.html(
-    #             f"""
-    #         <img  src="https://img.icons8.com/external-xnimrodx-lineal-gradient-xnimrodx/64/000000/external-audio-online-learning-xnimrodx-lineal-gradient-xnimrodx.png"/>
-    #                 """,
-    #                 height=300
-    #             )
-    # elif len(drop_deplicated_data["albumID"]) > 1:
-    #     with col2:
-    #         uri=drop_deplicated_data["albumID"][0]
-    #         components.html(
-    #             f"""
-    #             <iframe src=https://open.spotify.com/embed/album/{uri} width="200" height="500" frameborder="50" allowtransparency="true"
-    #             allow="encrypted-media" ></iframe>
-    #                 """,
-    #                 height=400
-    #             )
-    #     with col3:
-    #         uri1=drop_deplicated_data["albumID"][1]
-    #         components.html(
-    #             f"""
+            st.altair_chart(c, use_container_width=True)
 
-    #             <iframe src=https://open.spotify.com/embed/album/{uri1} width="200" height="500" frameborder="50" allowtransparency="true"
-    #             allow="encrypted-media" ></iframe>
-
-    #             """,
-
-    #                 height=400,
-    #             )
-
-    #     with col1:
-    #         components.html(
-    #             f"""
-    #             <div style="text-align: center;">
-    #             <img src="https://img.icons8.com/external-xnimrodx-lineal-gradient-xnimrodx/64/000000/external-audio-online-learning-xnimrodx-lineal-gradient-xnimrodx.png"/>
-    #             </div>
-    #                 """,
-    #                 height=100
-    #             )
-    #         components.html(
-    #             f"""
-    #             <img src="https://img.icons8.com/external-tulpahn-flat-tulpahn/64/000000/external-audio-mobile-user-interface-tulpahn-flat-tulpahn.png"/>
-    #                 """,
-    #                 height=100
-    #             )
-    #         with col4:
-    #             components.html(
-    #             f"""
-    #             <div style="margin-left:30px;">
-    #             <img src="https://img.icons8.com/external-flaticons-lineal-color-flat-icons/64/000000/external-audio-edm-flaticons-lineal-color-flat-icons-2.png"/>
-    #             </div>
-    #                 """,
-    #                 height=100
-    #             )
-    #             components.html(
-    #             f"""
-    #             <div style="text-align:right;">
-    #             <img src="https://img.icons8.com/external-tulpahn-flat-tulpahn/64/000000/external-audio-mobile-user-interface-tulpahn-flat-tulpahn.png"/>
-    #             </div>
-    #                 """,
-    #                 height=100
-    #             )
-    # elif len(drop_deplicated_data["albumID"]) == 0:
-    #     print("test")
-
-    # else:
-    #     None
+            #song table
+            with st.expander("See more Track List"):
+                st.table(chart_df)
